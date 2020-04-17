@@ -156,9 +156,15 @@ header .contenedor .titulo p{
 }
 
 .quienes .contenedor .contenedor-imagen{
+	display: flex;
 	width: 40%;
 	margin: auto;
 	overflow: hidden;
+	justify-content: center;
+}
+
+.contenedor-imagen img{
+	max-height: 100%;
 }
 
 .contacto{
@@ -173,7 +179,7 @@ header .contenedor .titulo p{
 }
 
 footer{
-	height: 20rem;
+	
 }
 
 footer .contenedor{
@@ -182,6 +188,7 @@ footer .contenedor{
 	justify-content: space-around;
 	height: 100%;
 	color: white;
+	padding: 30px;
 }
 
 footer .contenedor .logo{
@@ -191,8 +198,8 @@ footer .contenedor .logo{
 }
 
 footer .contenedor .logo .descripcion{
-	width: 60%;
 	font-size: 1.5rem;
+	margin-left: 30px;
 }
 
 footer .contenedor .redes-sociales{
@@ -200,6 +207,7 @@ footer .contenedor .redes-sociales{
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+	margin: auton;
 }
 
 footer .contenedor .redes-sociales img{
