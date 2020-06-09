@@ -1,7 +1,7 @@
 *{
 	margin: 0;
 	padding: 0;
-	box-sizing: border-box;
+	/*box-sizing: border-box;*/
 	/*font-family: 'Arimo', sans-serif;*/
 	scroll-behavior: smooth;
 	font-family: 'Merienda One', cursive;
@@ -137,7 +137,7 @@ header .contenedor .titulo p{
 
 .quienes .titulo{
 	text-align: center;
-	font-size: 3rem;
+	font-size: 2rem;
 }
 
 .quienes .contenedor{
@@ -152,7 +152,7 @@ header .contenedor .titulo p{
 .quienes .contenedor .texto{
 	margin: auto;
 	width: 40%;
-	font-size: 2rem;
+	font-size: 1.5rem;
 }
 
 .quienes .contenedor .contenedor-imagen{
@@ -178,8 +178,9 @@ header .contenedor .titulo p{
 	margin-bottom: 3rem;
 }
 
+
 footer{
-	
+	margin-top: 5rem;
 }
 
 footer .contenedor{

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/menu_categorias.css">
 </head>
 <body>
-    <?php include('../compartidos/menu_categorias.html'); ?>
+    <?php include('../compartidos/menu_categorias.php'); ?>
     
     <section class="barraDirecciones">
     <div class="contenedor2">

@@ -1,0 +1,21 @@
+print_r($_POST);
+$json = file_get_contents('php://input');
+$data = json_decode($json);
+include("../../../compartidos/conexion_bd.php");
+
+if(isset($_POST['ids'])){
+    print_r("Tiene variable");
+    print_r($_POST['ids']);
+
+}else{
+    print_r("No tiene variable");
+    print_r($_POST['ids']);
+}
+echo "Antes de mostrar la data";
+print_r($data);
+//print_r($data[0]);
+
+$var = json_decode(file_get_contents('php://input'), true);
+
+print_r($var);
+print_r($var["ids"]);

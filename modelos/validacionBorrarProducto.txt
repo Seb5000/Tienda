@@ -1,0 +1,31 @@
+public function borrarProductos(){
+    // VALIDACION DE LOS ID INTRODUCIDOS Y TRANSFORMACION A UNA CADENA DE IDS
+    $valido = true;
+    if(is_numeric($this->id)){ //VERIFICA SI ES UN NUMERO
+        $valido = true;
+    }elseif(is_array($this->id)){ //VERIFICA SI ES UN ARRAY NUMERICO
+        foreach($this->id as $elem){
+            if(!is_numeric($elem)){
+                $valido = false;
+            }
+        }
+        if($valido){
+            $this->id = join(',', $this->id);
+        }
+    }elseif(is_string($this->id)){ // VERIFICA SI ES UN STRING DE NUMEROS SEPARADOS POR COMA
+        $arrIds = explode(",",$this->id);
+        foreach($arrIds as $elem){
+            if(!is_numeric($elem)){
+                $valido = false;
+            }
+        }
+    }else{
+        $valido = false;
+    }
+
+    if($valido){
+        $query = 'DELETE FROM PRODUCTO
+                WHERE ID_PRODUCTO in (:ids)';
+        
+    }
+}
