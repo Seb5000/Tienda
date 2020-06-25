@@ -3,12 +3,21 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/baseDatos.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Producto.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Categoria.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Subcategoria.php';
+$actual = 'productos';
 
 $bd = new DataBase();
 
 $conn = $bd->conectar();
 $categoria = new Categoria($conn);
 $subcategoria = new Subcategoria($conn);
+
+if(isset($_GET['cantidad']) and isset($_GET['pagina'])){
+    $catidad_x_pagina = $_GET['cantidad'];
+    $pagina = $_GET['pagina'];
+}else{
+    header('Location: productos.php?pagina=1&cantidad=10');
+    die();
+}
 
 $arrCat = $categoria->listaCategorias();
 $arrSubcat = $subcategoria->listaSubcategorias();

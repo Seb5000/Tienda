@@ -1,6 +1,7 @@
 <?php 
     include('insert_data.php');
     include('../compartidos/conexion_bd.php');
+    $actual = 'categorias';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,35 +81,6 @@
                             </tr>
                         </thead>
                         <tbody id="tabla">
-                            <tr>
-                                <td>
-                                    <span class="custom-checkbox">
-                                        <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                                        <label for="checkbox1"></label>
-                                    </span>
-                                </td>
-                                <td>1</td>
-                                <td>Pinturas</td>
-                                <td>
-                                    <div class="contenedor_imagen">
-                                        <img src="/tio/imagenes/categorias/7.jpg" alt="">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="contenedor_imagen">
-                                        <img src="/tio/imagenes/iconos/brush.svg" alt="">
-                                    </div>
-                                </td>
-                                <td>Esta es una descripccion larga lalalala </td>
-                                <td>
-                                    <!--
-                                    <a href="#editarCategoriaModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                    <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                    -->
-                                    <a class="edit" onclick="editar_dato(this); abrir_modal('#editarCategoriaModal')"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                    <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                </td>
-                            </tr>
                             <?php 
                                 $sql = "SELECT * FROM `CATEGORIA`";
                                 $result = $conn->query($sql);
@@ -273,9 +245,6 @@
             <div id="user-data">
 
             </div>
-            <h1>Css is cool</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi pariatur saepe error expedita consequuntur ab? Odit modi accusamus enim explicabo quod temporibus pariatur, vero nesciunt dolorem assumenda quia veniam voluptatibus?</p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus libero eligendi
         </div>
     </div>
 

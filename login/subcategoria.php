@@ -1,5 +1,13 @@
 <?php
-    include('../compartidos/conexion_bd.php');
+    include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/baseDatos.php';
+    include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Categoria.php';
+    $actual = 'subcategorias';
+    
+    $bd = new DataBase();
+    
+    $conn = $bd->conectar();
+    $categoria = new Categoria($conn);
+    $arrCat = $categoria->listaCategorias();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,83 +25,7 @@
         <div class="contenedor">
             <h2>Subcategorias</h2>
             <div id="contenedorTabla">
-                <div id="cabeceraTabla">
-                    <h2>Administrar <b>Subcategorias</b></h2>
-                    <div class="botonesTabla">
-                        <button onclick="obtenerIds()">Borrar</button>
-                        <button onclick="abrir_modal('agregarModal')">Agregar</button>
-                    </div>
-                </div>
-                <table id="tablaPrincipal">
-                    <thead>
-                        <tr>
-                            <th>
-                                <input type="checkbox" id="selecionarTodos">
-                            </th>
-                            <th>ID Subcategoria</th>
-                            <th>Nombre SubCategoria</th>
-                            <th>Pertenece a<br>Categoria</th>
-                            <th>Imagen Subcategoria</th>
-                            <th>Descripcion</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="opciones[]">
-                            </td>
-                            <td>id Sub</td>
-                            <td>Nombre de la sub</td>
-                            <td>Categoria 123</td>
-                            <td>
-                                <div class="contenedor_imagen">
-                                    <img src="/tio/imagenes/categorias/7.jpg" alt="">
-                                </div>
-                            </td>
-                            <td>
-                                Esta es una descripccion bien pendeja
-                            </td>
-                            <td>
-                                <button onclick="borrarId(this)">Borrar</button>
-                                <button onclick="llenarFormEditar(1)">Editar</button>
-                            </td>
-                        </tr>
-                        
-                        <?php 
-                            $sql = "SELECT * FROM `SUBCATEGORIA`";
-                            $result = $conn->query($sql);
-                            if ($result->num_rows > 0) {
-                                while($row = $result->fetch_assoc()) {
-                        ?>
-                        <tr>
-                            <td>
-                                <input type="checkbox" name="opciones[]">
-                            </td>
-                            <td><?php echo $row["ID_SUBCATEGORIA"] ?></td>
-                            <td><?php echo $row["NOMBRE_SUBCATEGORIA"] ?></td>
-                            <td><?php echo $row["ID_CATEGORIA"] ?></td>
-                            <td>
-                                <div class="contenedor_imagen">
-                                    <img src="<?php echo $row["IMAGEN_SUBCATEGORIA"] ?>" alt="">
-                                </div>
-                            </td>
-                            <td>
-                                <?php echo $row["DESCRIPCION_SUBCATEGORIA"] ?>
-                            </td>
-                            <td>
-                                <button onclick="borrarId(this)">Borrar</button>
-                                <button onclick="llenarFormEditar(<?php echo $row['ID_SUBCATEGORIA'] ?>)">Editar</button>
-                            </td>
-                        </tr>
-                        <?php 
-                                }
-                            }else{
-                            echo "No se encontraron datos";
-                            }
-                        ?>
-                    </tbody>
-                </table>
+                <?php include('querys/subcategoria/cargar_tabla.php') ?>
             </div>
             
         </div>
@@ -124,16 +56,12 @@
                         <span class="mensaje_form" id="form_agregar_mensaje_categoria"></span>
                         <select class="entradaForm" name="categoria">
                         <?php 
-                            $sql = "SELECT ID_CATEGORIA, NOMBRE_CATEGORIA FROM `CATEGORIA`";
-                            $result = $conn->query($sql);
-                            if ($result->num_rows > 0) {
-                                while($row = $result->fetch_assoc()) {
+                            foreach($arrCat as $cat):
                         ?>
-                            <option value="<?php echo $row["ID_CATEGORIA"] ?>"><?php echo $row["NOMBRE_CATEGORIA"] ?></option>
-                            <?php
-                                }
-                            }
-                            ?>
+                            <option value="<?php echo $cat["id"] ?>"><?php echo $cat["nombre"] ?></option>
+                        <?php
+                            endforeach;
+                        ?>
                         </select>
                         
                     </div>
@@ -177,16 +105,12 @@
                         <label for="">Pertenece a la Categoria...</label>
                         <select class="entradaForm" name="categoria" id="modal_editar_categoria">
                         <?php 
-                            $sql = "SELECT ID_CATEGORIA, NOMBRE_CATEGORIA FROM `CATEGORIA`";
-                            $result = $conn->query($sql);
-                            if ($result->num_rows > 0) {
-                                while($row = $result->fetch_assoc()) {
+                            foreach($arrCat as $cat):
                         ?>
-                            <option value="<?php echo $row["ID_CATEGORIA"] ?>"><?php echo $row["NOMBRE_CATEGORIA"] ?></option>
-                            <?php
-                                }
-                            }
-                            ?>
+                            <option value="<?php echo $cat["id"] ?>"><?php echo $cat["nombre"] ?></option>
+                        <?php
+                            endforeach;
+                        ?>
                         </select>
                     </div>
                     <div class="grupoInput">

@@ -1,5 +1,8 @@
 //Para subcategoria
 const tablaPrincipal = document.getElementById("tablaPrincipal");
+const contenedorTabla = document.getElementById("contenedorTabla");
+const sugerenciasNombre = document.getElementById("sugerenciasNombre");
+const listaSugerencias = document.querySelector(".listaSugerencias");
 const formAgregar = document.getElementById("formulario_agregar");
 const formEditar = document.getElementById("formulario_editar");
 const formBorrar = document.getElementById("formulario_borrar");
@@ -61,6 +64,7 @@ function agregarPorAxios(){
             cabecera.style.backgroundColor = "lightcoral";
         }else{
             formAgregar.reset();
+            actualizar_tabla();
             cabecera.style.backgroundColor = "lightgreen";
             setTimeout(() => {
                 mensaje_principal.style.display = "none";
@@ -184,12 +188,94 @@ function enviarFormEditar(){
 //function editar()
 
 function actualizar_tabla(){
-    tablaPrincipal.innerHTML = "";
+    contenedorTabla.innerHTML = "";
     axios.get("/tio/login/querys/subcategoria/cargar_tabla.php")
     .then(response =>{
-        tablaPrincipal.innerHTML = response.data;
+        contenedorTabla.innerHTML = response.data;
     })
     .catch(error =>{
-        tablaPrincipal.innerHTML = "No se pudo cargar la tabla. <br/>"+error;
+        contenedorTabla.innerHTML = "No se pudo cargar la tabla. <br/>"+error;
     });
 }
+
+function ajustarCantidad(cantidad){
+    //let camino = window.location.path;
+    let parametros = new URLSearchParams(window.location.search.substring(1));
+    //for(const [key, value] of params){ console.log(key+" - "+value)}
+    parametros.set("cantidad", cantidad);
+    parametros.set("pagina", 1);
+    //let nuevaUrl = camino+parametros.toString();
+    window.location.search =  parametros.toString();
+}
+
+function ajustarCategoria(idCat){
+    let parametros = new URLSearchParams(window.location.search.substring(1));
+    let valorNombre = document.getElementById("filtroNombre").value;
+    parametros.set("categoria", idCat);
+    parametros.set("nombre", valorNombre);
+    console.log("cambio");
+    window.location.search =  parametros.toString();
+}
+
+function buscarSugerencias(palabra){
+    if(palabra!=''){
+        axios.post('/tio/login/querys/subcategoria/buscar_palabra.php', {'palabra':palabra})
+        .then(respuesta =>{
+            let sugerencias = respuesta.data.sugerencias;
+            sugerenciasNombre.innerHTML = "";
+            sugerencias.forEach(elem =>{
+                sugerenciasNombre.innerHTML += `<li onclick="buscarPalabra(this.innerHTML)">${elem}</li>`;
+            });
+        })
+        .catch(err =>{
+            console.log(err);
+            console.log(err.response);
+        });
+    }else{
+        sugerenciasNombre.innerHTML = "";
+    }
+}
+
+function buscarPalabra(palabra){
+    let parametros = new URLSearchParams(window.location.search.substring(1));
+    parametros.set("nombre", palabra);
+    parametros.set("pagina", 1);
+    window.location.search =  parametros.toString();
+}
+
+function buscarNombre(){
+    let valorNombre = document.getElementById("filtroNombre").value;
+    if(valorNombre != ""){
+        let parametros = new URLSearchParams(window.location.search.substring(1));
+        parametros.set("nombre", valorNombre);
+        parametros.set("pagina", 1);
+        window.location.search =  parametros.toString();
+    }else{
+        console.log("Se reseteo nombre");
+        let parametros = new URLSearchParams(window.location.search.substring(1));
+        parametros.delete("nombre");
+        parametros.set("pagina", 1);
+        window.location.search =  parametros.toString();
+    }
+}
+/*
+function abrirSugerencias(){
+    sugerenciasNombre.style.display = "block";
+    console.log("abrir");
+}
+
+function cerrarSugerencias(){
+    sugerenciasNombre.style.display = "none";
+    console.log("cerrar");
+}
+*/
+document.addEventListener("click", function(event){
+    if(event.target.closest(".sugerenciaInput")){
+        listaSugerencias.classList.remove("ocultar");
+        console.log("se muestra");
+        return;
+    }
+
+    listaSugerencias.classList.add("ocultar");
+    console.log("se oculta");
+});

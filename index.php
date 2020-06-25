@@ -90,22 +90,6 @@
 						}
 					}
 					?>
-					<li>
-						<div class="container">
-							<div class="cardWrap">
-								<div class="card">
-									<div class="cardBg" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/280px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg');"></div>
-									<div class="cardInfo">
-										<h3 class="cardTitle">
-											Mathematics
-										</h3>
-										<p>A subject which deals with.... Well Maths!</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</li>
-
 				</ul>
 			</div>
 

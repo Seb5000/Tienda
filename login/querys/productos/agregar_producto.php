@@ -13,24 +13,24 @@ $err = false;
 
 
 //$id_categoria = isset($_POST['categoria']) ? $_POST['categoria'] : "NULL"; //ternary op long
-$id_categoria ="NULL";
+$id_categoria =null;
 if(isset($_POST['categoria'])){
-    if($_POST['categoria']=='') $id_categoria = "NULL";
+    if($_POST['categoria']=='') $id_categoria = null;
     else{
         $id_categoria = $_POST['categoria'];
     }
 }else{
-    $id_categoria = "NULL";
+    $id_categoria = null;
 }
 //$id_subcategoria = $_POST['subcategoria'] ?? "NULL"; // ternary op php 7
-$id_subcategoria = "NULL";
+$id_subcategoria = null;
 if(isset($_POST['subcategoria'])){
-    if($_POST['subcategoria']=='') $id_subcategoria = "NULL";
+    if($_POST['subcategoria']=='') $id_subcategoria = null;
     else{
         $id_subcategoria = $_POST['subcategoria'];
     }
 }else{
-    $id_subcategoria = "NULL";
+    $id_subcategoria = null;
 }
 
 // VALIDACION PARA NOMBRE
@@ -57,7 +57,7 @@ $precio;
 if(isset($_POST['precio'])){
     $precio = $_POST['precio'];
 }else{
-    $precio = "NULL";
+    $precio = null;
 }
 
 // VALIDACION PARA IMAGEN

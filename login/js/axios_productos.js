@@ -1,4 +1,10 @@
 const contenedorTabla = document.getElementById("contenedorAuxiliar");
+
+//Para la parte de Filtros
+const filtroSubcategoria = document.getElementById("filtroSubcategoria");
+const sugerenciasNombre = document.getElementById("sugerenciasNombre");
+const filtroCategoria = document.getElementById('filtroCategoria');
+const filtroNombre = document.getElementById("filtroNombre");
 //Para subcategoria
 //const tablaPrincipal = document.getElementById("tablaPrincipal");
 const formAgregar = document.getElementById("formulario_agregar");
@@ -15,7 +21,7 @@ const sSubcategoria = document.getElementById('selectSubcategoria');
 
 //Para el formulario agregar
 const agregarCabecera = document.getElementById("cabeceraModalAgregar");
-const agregarMensajePrinciapl = document.getElementById("mensaje_agregar");
+const agregarMensajePrincipal = document.getElementById("mensaje_agregar");
 const agregarMensajeNombre = document.getElementById("form_agregar_mensaje_nombre");
 const agregarMensajeCategoria = document.getElementById("form_agregar_mensaje_categoria");
 const agregarMensajeSubcategoria = document.getElementById("form_agregar_mensaje_subcategoria");
@@ -56,6 +62,15 @@ function actualizarTabla(){
     .catch(err=>{
         contenedorTabla.innerHTML = "Error al cargar la tabla: "+err;
     });
+}
+
+function ajustarCantidad(cantidad){
+    //let camino = window.location.path;
+    let parametros = new URLSearchParams(window.location.search.substring(1));
+    //for(const [key, value] of params){ console.log(key+" - "+value)}
+    parametros.set("cantidad", cantidad);
+    //let nuevaUrl = camino+parametros.toString();
+    window.location.search =  parametros.toString();
 }
 
 function checkBoxes(){
@@ -131,7 +146,7 @@ function agregarPorAxios(){
     .then(response =>{
         let resp = response.data;
         console.log(resp);
-        agregarMensajePrinciapl.innerHTML = resp.mensaje;
+        agregarMensajePrincipal.innerHTML = resp.mensaje;
         agregarMensajeNombre.innerHTML = resp.nombre;
         agregarMensajeImagen.innerHTML = resp.imagen;
 
@@ -143,7 +158,7 @@ function agregarPorAxios(){
             actualizarTabla(); // actualizar la tabla
             agregarCabecera.style.backgroundColor = "lightgreen";
             setTimeout(() => {
-                agregarMensajePrinciapl.style.display = "none";
+                agregarMensajePrincipal.style.display = "none";
                 agregarCabecera.style.backgroundColor = "white";
             }, 1000);
             console.log("success ajax function");
@@ -302,6 +317,85 @@ function guardarCambios(){
         editarCabecera.style.backgroundColor = "lightcoral";
         editarMensaje.innerHTML = err.respuesta;
     });
+}
+
+function ajustarSelectSubcategoria(valor){
+    axios.post("/tio/login/querys/productos/selectSubcategoria.php", {"valor": valor})
+    .then(respuesta =>{
+        let contenido = respuesta.data;
+        filtroSubcategoria.innerHTML = contenido;
+    })
+    .catch(err=>{
+        console.log(err);
+        console.log(err.response);
+    });
+}
+
+function buscarSugerencias(palabras){
+    if(palabras!=''){
+        axios.post('/tio/login/querys/productos/buscarPalabras.php', {'palabras':palabras})
+        .then(respuesta =>{
+            console.log(respuesta.data);
+            let sugerencias = respuesta.data.sugerencias;
+            sugerenciasNombre.innerHTML = "";
+            sugerencias.forEach(elem =>{
+                sugerenciasNombre.innerHTML += `<li onclick="selecionarPalabra(this.innerHTML)">${elem}</li>`;
+            });
+        })
+        .catch(err =>{
+            console.log(err);
+            console.log(err.response);
+        });
+    }else{
+        sugerenciasNombre.innerHTML = "";
+    }
+}
+
+function selecionarPalabra(valor){
+    filtroNombre.value = valor;
+}
+
+document.addEventListener("click", function(event){
+    if(event.target.closest(".sugerenciaInput")){
+        sugerenciasNombre.classList.remove("ocultar");
+        console.log("se muestra");
+        return;
+    }
+    sugerenciasNombre.classList.add("ocultar");
+    console.log("se oculta");
+});
+
+function cambiarPagina(pagina){
+    let parametros = new URLSearchParams(window.location.search.substring(1));
+    parametros.set("pagina", pagina);
+    window.location.search =  parametros.toString();
+}
+
+function aplicarFiltros(){
+    let parametros = new URLSearchParams(window.location.search.substring(1));
+    let categoria = filtroCategoria.value;
+    let subcategoria = filtroSubcategoria.value;
+    let nombre = filtroNombre.value;
+
+    if(categoria == "none"){
+        parametros.delete("categoria");
+    }else{
+        parametros.set("categoria", categoria);
+    }
+
+    if(subcategoria == "none"){
+        parametros.delete("subcategoria");
+    }else{
+        parametros.set("subcategoria", subcategoria);
+    }
+
+    if(nombre == ""){
+        parametros.delete("nombre");
+    }else{
+        parametros.set("nombre", nombre);
+    }
+
+    window.location.search =  parametros.toString();
 }
 
 

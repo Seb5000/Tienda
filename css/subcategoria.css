@@ -6,8 +6,7 @@
 
 :root{
     font-size: 16px;
-    font-family: 'Open Sans';
-    --text-primary: rgba(255, 255, 255, 0.8);
+    --text-primary: rgba(255, 255, 255, 0.5);
     --text-secondary: #ececec;
     --bg-primary: #23232e;
     --bg-secondary: #141418;
@@ -18,8 +17,9 @@ body{
     background-color: white;
     margin: 0px;
     padding: 0px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
-
+/*
 body::-webkit-scrollbar{
     width: 0.5rem;
 }
@@ -31,7 +31,7 @@ body::-webkit-scrollbar-track{
 body::-webkit-scrollbar-thumb{
     background-color: #ff0000;
 }
-
+*/
 .contenedor-principal{
     display: flex;
     min-height: 100vh;
@@ -51,7 +51,6 @@ body::-webkit-scrollbar-thumb{
 }
 
 .nav-logo{
-    width: 100%;
     display: flex;
     background-color: transparent;
     text-decoration: none;
@@ -61,21 +60,31 @@ body::-webkit-scrollbar-thumb{
     color: white;
 }
 
+.logo-icono{
+    margin: 20px;
+}
+
 .logo-icono svg{
     width: 3rem;
-    margin-left: 1.5rem;
-    margin-top: 1.5rem;
 }
 
 .logo-texto{
-    font-size: 1.7rem;
-    width: 12rem;
-    margin-top: 1.5rem;
+    font-size: 2rem;
+    margin-right: 20px;
 }
 
 .nav-item{
     width: 100%;
     
+}
+
+.nav-item.activo .nav-link{
+    color: white;
+}
+
+.nav-item.activo .link-text{
+    border-bottom: 3px solid white;
+    line-height: 2;
 }
 
 .nav-link{
@@ -92,6 +101,7 @@ body::-webkit-scrollbar-thumb{
 
 .link-text{
     margin: 0 1rem;
+    font-size: 1.5rem;
 }
 
 .nav-link svg{
@@ -101,6 +111,29 @@ body::-webkit-scrollbar-thumb{
 
 .separador{
     width: 90%;
+}
+
+/* CSS del cuadro CRUD*/
+
+
+.contenedor_imagen{
+    display: flex;
+    width: 150px;
+    height: 150px;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #eee;
+}
+
+.contenedor_imagen img{
+    width: 100%;
+    max-height: 100%;
+    /*object-fit: contain;*/
+    object-fit: contain;
+}
+
+.contenedor h2{
+    margin-left: 50px;
 }
 
 /* CSS del cuadro CRUD*/
@@ -141,14 +174,15 @@ body::-webkit-scrollbar-thumb{
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: rgb(180, 87, 87);
+    background-color: rgb(100, 149, 237);
     color: white;
 }
 
 #cabeceraTabla{
     display: flex;
     align-items: center;
-    background-color: #b45757;
+    background-color: rgb(100, 149, 237);
+    color: white;
 }
 
 #cabeceraTabla h2{
@@ -166,6 +200,102 @@ body::-webkit-scrollbar-thumb{
     padding: 30px;
     justify-content: center;
     min-width: 800px;
+}
+
+.filtros{
+    background-color: cornflowerblue;
+    display: flex;
+    justify-content: space-around;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    color: white;
+}
+
+.filtros .grupo{
+    display: flex;
+    flex-direction: column;
+}
+
+.ocultar{
+    display: none;
+}
+
+.grupo select{
+    font-size: 16px;
+    padding: 10px;
+}
+
+#filtroNombre{
+    border: none;
+    outline: none;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+.sugerenciaInput{
+    display: inline-block;
+    position: relative;
+    padding: 10px;
+    background-color: white;
+}
+
+.listaSugerencias{
+    position: absolute;
+    top: 100%;
+    left: 0px;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    background: white;
+    list-style: none;
+    border-bottom: 1px solid rgba(122, 122, 122, 0.3);
+    border-left: 1px solid rgba(122, 122, 122, 0.3);
+    border-right: 1px solid rgba(122, 122, 122, 0.3);
+}
+
+.listaSugerencias li{
+    padding: 10px;
+    color: black;
+}
+
+.listaSugerencias li:hover{
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: rgba(219, 219, 219, 0.5);
+}
+
+.pieTabla{
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    display: flex;
+    padding: 20px;
+    background-color: cornflowerblue;
+}
+
+.paginacion{
+    margin-left: auto;
+}
+
+.pagina{
+    color: #23232e;
+    padding: 8px 16px;
+    text-decoration: none;
+    background-color: white;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 2px;
+    border-radius: 5px;
+}
+
+.pagina.activo{
+    color: white;
+    background-color: #56d674;
+    border: 1px solid rgb(63, 164, 87);
+}
+
+.pagina.desactivado{
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 #covertor{

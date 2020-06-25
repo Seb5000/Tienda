@@ -25,12 +25,12 @@
                                     if ($result2->num_rows > 0) {
                                     while($row2 = $result2->fetch_assoc()) { ?>
                                         <div class='item-grid'>
-                                            <a href='index.php?categoria=<?php echo $row["ID_CATEGORIA"] ?>&sub_categoria=<?php echo $row2["ID_SUBCATEGORIA"]?>'><?php echo $row2["NOMBRE_SUBCATEGORIA"]?></a>
+                                            <a href='index.php?categoria=<?php echo $row["ID_CATEGORIA"] ?>&subcategoria=<?php echo $row2["ID_SUBCATEGORIA"]?>'><?php echo $row2["NOMBRE_SUBCATEGORIA"]?></a>
                                         </div>
                                         <?php }
                                     }?>
                                         <div class='item-grid'>
-                                            <a href='index.php?sub_categoria=elemento 1'>elemento 1</a>
+                                            <a href='index.php?subcategoria=elemento 1'>elemento 1</a>
                                         </div>
                                     </div>
                                 </div>
@@ -39,25 +39,6 @@
                     </li>
                 <?php } 
             } ?>
-        <li class="item_menu">
-            <a href="/tio/productos/index.php?categoria=pinturas">
-                <img src="/tio/imagenes/iconos/artist.png" class="icono" alt="">
-                <div class="descripcion">Pinturas</div>
-                <div class="sub_menu menu_pinturas">
-                    <div class="fondo">PINTURAS</div>
-                    <div class="contenedor">
-                        <div class="titulo">
-                            PINTURAS
-                        </div>
-                        <div class="gridDescripcion">
-                            <div class="item-grid">
-                                <a href="index.php?sub_categoria=elemento 1">elemento 1</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </li>
         <?php
         /*
         <li class="item_menu">

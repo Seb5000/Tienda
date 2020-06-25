@@ -58,8 +58,8 @@ if(isset($_GET['categoria'])){
     }
 }
 
-if(isset($_GET['sub_categoria'])){
-    $id_sub_categoria = $_GET['sub_categoria'];
+if(isset($_GET['subcategoria'])){
+    $id_sub_categoria = $_GET['subcategoria'];
     if(!is_numeric($id_sub_categoria)){
         $id_sub_categoria = -1;
     }
@@ -167,27 +167,51 @@ if(isset($_GET['sub_categoria'])){
                                 }else{
 
                                 }
+
+                                <li>
+                                    <div class="producto">
+                                        <div class="producto_foto">
+                                            <img src="https://picsum.photos/200/200" alt="">
+                                        </div>
+                                        <div class="producto_nombre">
+                                            producto prueba 123
+                                        </div>
+                                        <div class="producto_numero">
+                                            item #456789
+                                        </div>
+                                        <div class="producto_descripcion">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis necessitatibus, dolor, quam blanditiis possimus soluta doloribus autem, adipisci sed, suscipit a voluptatem. Sequi deserunt dolores, magnam molestias laudantium praesentium cum.
+                                        </div>
+                                        <div class="producto_precio">
+                                            18 - 20 Bs
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="producto">
+                                        <div class="producto_foto">
+                                            <img src="https://picsum.photos/200/200" alt="">
+                                        </div>
+                                        <div class="producto_nombre">
+                                            producto prueba 123
+                                        </div>
+                                        <div class="producto_numero">
+                                            item #456789
+                                        </div>
+                                        <div class="producto_descripcion">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis necessitatibus, dolor, quam blanditiis possimus soluta doloribus autem, adipisci sed, suscipit a voluptatem. Sequi deserunt dolores, magnam molestias laudantium praesentium cum.
+                                        </div>
+                                        <div class="producto_precio">
+                                            18 - 20 Bs
+                                        </div>
+                                    </div>
+                                </li>
                             */
+                            
+                            include $_SERVER['DOCUMENT_ROOT'].'/tio/productos/cuadrilla_productos.php';
                             ?>
-                            <li>
-                                <div class="producto">
-                                    <div class="producto_foto">
-                                        <img src="https://picsum.photos/200/200" alt="">
-                                    </div>
-                                    <div class="producto_nombre">
-                                        producto prueba 123
-                                    </div>
-                                    <div class="producto_numero">
-                                        item #456789
-                                    </div>
-                                    <div class="producto_descripcion">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis necessitatibus, dolor, quam blanditiis possimus soluta doloribus autem, adipisci sed, suscipit a voluptatem. Sequi deserunt dolores, magnam molestias laudantium praesentium cum.
-                                    </div>
-                                    <div class="producto_precio">
-                                        18 - 20 Bs
-                                    </div>
-                                </div>
-                            </li>
+                            
                             
                         </ul>
                     </div>
