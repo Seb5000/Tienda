@@ -361,7 +361,7 @@ body::-webkit-scrollbar-thumb{
     transition: 0.3s;
 }
 
-#mensaje_agregar{
+#mensaje_agregar, #mensaje_borrar, #mensaje_editar{
     width: 60%;
     margin-left: 20px;
 }

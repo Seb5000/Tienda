@@ -338,7 +338,6 @@ class Producto{
                     s.NOMBRE_SUBCATEGORIA,
                     p.MARCA_PRODUCTO,
                     p.PRECIO_PRODUCTO,
-                    p.IMAGEN_PRODUCTO,
                     p.DESCRIPCION_PRODUCTO
                     FROM PRODUCTO p
                         LEFT OUTER JOIN CATEGORIA c ON p.ID_CATEGORIA = c.ID_CATEGORIA
@@ -415,7 +414,6 @@ class Producto{
                     'nombreS' => $fila['NOMBRE_SUBCATEGORIA'],
                     'marca' => $fila['MARCA_PRODUCTO'],
                     'precio' => $fila['PRECIO_PRODUCTO'],
-                    'imagen' => $fila['IMAGEN_PRODUCTO'],
                     'descripcion' => $fila['DESCRIPCION_PRODUCTO'],
                 );
                 array_push($arr_prod, $producto);

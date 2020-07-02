@@ -7,12 +7,17 @@ $respuesta["data"]["mensaje"]="";
 
 if(isset($_POST['ids'])){
     $caminoCarpeta = $_SERVER['DOCUMENT_ROOT'];
-    $sql = "SELECT IMAGEN_SUBCATEGORIA FROM `SUBCATEGORIA` WHERE ID_SUBCATEGORIA in ($ids)";
+    $sql = "SELECT IMAGEN_SUBCATEGORIA, IMAGEN_SM_SUBCATEGORIA FROM `SUBCATEGORIA` WHERE ID_SUBCATEGORIA in ($ids)";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
             $imagen = $caminoCarpeta.$row["IMAGEN_SUBCATEGORIA"];
-            unlink($imagen);
+            $imagenS = $caminoCarpeta.$row["IMAGEN_SM_SUBCATEGORIA"];
+            $nombre_imagen = pathinfo($imagen, PATHINFO_FILENAME);
+            if($nombre_imagen != "defecto"){
+                unlink($imagen);
+                unlink($imagenS);
+            }
         }
     }
     else{

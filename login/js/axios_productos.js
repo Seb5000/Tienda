@@ -139,9 +139,28 @@ function llenarSubcategoriasE(){
     });
 }
 
+function obtenerListaImagenes(){
+    const contenedorImagenes = document.getElementById("contenedorImagenes");
+    let contImg = contenedorImagenes.querySelectorAll(".contImg");
+    let lista = [];
+    contImg.forEach(cont =>{
+        let nom = cont.getAttribute("nombre");
+        lista.push(nom);
+    });
+    return lista;
+}
+
 function agregarPorAxios(){
     let formData = new FormData(formAgregar);
-
+    //borramos las imagenes ingresadas por el input
+    formData.delete("imagenes[]");
+    //agregammos las imagenes que estan dentro del drag and drop
+    let lis = obtenerListaImagenes();
+    // Nota objFiles esta declarado en el archivo dragDropv2.js
+    lis.forEach(elem =>{
+        formData.append("imagenesDD[]", objFiles[elem]);
+    });
+    
     axios.post("/tio/login/querys/productos/agregar_producto.php", formData)
     .then(response =>{
         let resp = response.data;

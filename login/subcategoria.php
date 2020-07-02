@@ -88,14 +88,16 @@
     <!-- Modal editar sub categoria INICIO-->
     <div id="editarModal" class="contenedorModal">
         <div class="modal">
-            <div class="cabeceraModal">
+            <div class="cabeceraModal" id="cabeceraEditar">
                 <h2>Editar Subcategoria</h2>
+                <p id="mensaje_editar"></p>
                 <button class="boton-cerrar" onclick="cerrar_modal('editarModal')">x</button>
             </div>
             <form id="formulario_editar" action="" onsubmit="event.preventDefault(); enviarFormEditar();">
                 <div class="cuerpoModal">
                     <input type="hidden" id="modal_editar_id" name="id">
                     <input type="hidden" id="modal_editar_caminoImagen" name="caminoImagen">
+                    <input type="hidden" id="modal_editar_caminoImagenS" name="caminoImagenS">
                     <div class="grupoInput">
                         <label for="">Nombre de la Subcategoria</label>
                         <input class="entradaForm" name="nombre" 
@@ -140,8 +142,9 @@
     <!-- Modal borrar sub categoria INICIO-->
     <div id="borrarModal" class="contenedorModal">
         <div class="modal">
-            <div class="cabeceraModal">
+            <div class="cabeceraModal" id="cabeceraBorrar">
                 <h2>Borrar Subcategoria</h2>
+                <p id="mensaje_borrar"></p>
                 <button class="boton-cerrar" onclick="cerrar_modal('borrarModal')">x</button>
             </div>
             <form id="formulario_borrar" action="">

@@ -15,6 +15,7 @@ if(isset($_POST['id'])){
             $respuesta["subcategoria"]["idCat"]=$row["ID_CATEGORIA"];
             $respuesta["subcategoria"]["nombre"]=$row["NOMBRE_SUBCATEGORIA"];
             $respuesta["subcategoria"]["imagen"]=$row["IMAGEN_SUBCATEGORIA"];
+            $respuesta["subcategoria"]["imagenS"]=$row["IMAGEN_SM_SUBCATEGORIA"];
             $respuesta["subcategoria"]["descripcion"]=$row["DESCRIPCION_SUBCATEGORIA"];
         }else{
             $respuesta["error"] = true;

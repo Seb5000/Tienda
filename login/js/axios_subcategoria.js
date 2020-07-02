@@ -8,17 +8,23 @@ const formEditar = document.getElementById("formulario_editar");
 const formBorrar = document.getElementById("formulario_borrar");
 var seleccionados = [];
 
-const modalBorrar = document.getElementById("borrarModal");
-const cuerpoBorrar = modalBorrar.getElementsByClassName("cuerpoModal")[0];
-
 //para el formulario editar
 const editarId = document.getElementById("modal_editar_id");
 const editarNombre = document.getElementById("modal_editar_nombre");
 const editarCategoria = document.getElementById("modal_editar_categoria");
 const vistaPreviaImagen = document.getElementById("vista_previa_imagen");
 const editarCaminoImagen = document.getElementById("modal_editar_caminoImagen");
+const editarCaminoImagenS = document.getElementById("modal_editar_caminoImagenS");
 const editarImagen = document.getElementById("modal_editar_imagen");
 const editarDescripcion = document.getElementById("modal_editar_descripcion");
+const editarMensaje = document.getElementById("mensaje_editar");
+const editarCabecera = document.getElementById("cabeceraEditar");
+
+//PARA BORRAR MODAL
+const modalBorrar = document.getElementById("borrarModal");
+const cuerpoBorrar = modalBorrar.getElementsByClassName("cuerpoModal")[0];
+const borrarMensaje = document.getElementById("mensaje_borrar");
+const borrarCabecera = document.getElementById("cabeceraBorrar");
 
 function agregarPorAxios(){
     let formData = new FormData(formAgregar);
@@ -69,7 +75,7 @@ function agregarPorAxios(){
             setTimeout(() => {
                 mensaje_principal.style.display = "none";
                 cabecera.style.backgroundColor = "white";
-            }, 2000);
+            }, 1000);
             console.log("success ajax function");
         }
     });
@@ -135,8 +141,21 @@ function borrarPorAxios(){
     ).then(response =>{
         console.log("respuesta: ");
         console.log(response.data);
+        if(response.data.status){
+            let mensaje = response.data.data.mensaje;
+            borrarMensaje.innerHTML = mensaje;
+            borrarCabecera.style.backgroundColor = "lightgreen";
+            setTimeout(() => {
+                location.reload();
+            }, 500);
+        }else{
+            borrarMensaje.innerHTML = response.data;
+            borrarCabecera.style.backgroundColor = "lightcoral";
+        }
     }).catch(err =>{
         console.log("Hubo un error");
+        borrarMensaje.innerHTML = err.response;
+        borrarCabecera.style.backgroundColor = "lightcoral";
     });
 }
 
@@ -157,6 +176,7 @@ function llenarFormEditar(idSubcategoria){
             vistaPreviaImagen.src = data.subcategoria.imagen;
             vistaPreviaImagen.src = data.subcategoria.imagen; //cambia la vista previa
             editarCaminoImagen.value = data.subcategoria.imagen; // guarda el valor del camino a la imagen
+            editarCaminoImagenS.value = data.subcategoria.imagenS; 
             editarDescripcion.value = data.subcategoria.descripcion;
             abrir_modal('editarModal');
         }
@@ -176,13 +196,24 @@ function enviarFormEditar(){
         formEditar.reset();
         vistaPreviaImagen.src = "";
         //recargar el script checkbox
-        var scriptC = document.getElementById("scriptCheckBox");
-        scriptC.remove();
-        document.body.append(scriptC);
-        cerrar_modal('editarModal');
+        //var scriptC = document.getElementById("scriptCheckBox");
+        //scriptC.remove();
+        //document.body.append(scriptC);
+        editarMensaje.innerHTML = response.data.mensaje;
+        if(response.data.error==false){
+            editarCabecera.style.backgroundColor = "lightgreen";
+            setTimeout(() => {
+                location.reload();
+            }, 1000);
+        }else{
+            editarCabecera.style.backgroundColor = "lightcoral";
+        }
+        //cerrar_modal('editarModal');
     })
     .catch(err => {
         console.log("Hubo un error"+err);
+        editarMensaje.innerHTML = err.response.data;
+        editarCabecera.style.backgroundColor = "lightcoral";
     });
 }
 //function editar()

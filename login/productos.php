@@ -58,6 +58,11 @@ $arrSubcat = $subcategoria->listaSubcategorias();
             <form id="formulario_agregar" action="" onsubmit="event.preventDefault(); agregarPorAxios();">
                 <div class="cuerpoModal">
                     <div class="grupoInput">
+                        <label class="etiquetaForm" for="id">Id del producto</label>
+                        <span class="mensaje_form" id="form_agregar_mensaje_id"></span>
+                        <input class="entradaForm" name="id" type="text">
+                    </div>
+                    <div class="grupoInput">
                         <label class="etiquetaForm" for="nombre">Nombre del producto</label>
                         <span class="mensaje_form" id="form_agregar_mensaje_nombre"></span>
                         <input class="entradaForm" name="nombre" type="text">
@@ -84,11 +89,14 @@ $arrSubcat = $subcategoria->listaSubcategorias();
                             <option value="" hidden>Elige una opcion...</option>
                         </select>
                     </div>
-                    <div class="grupoInput">
-                        <label class="etiquetaForm" for="imagen">Imagen del Producto</label>
-                        <span class="mensaje_form" id="form_agregar_mensaje_imagen"></span>
-                        <input class="entradaForm" name="imagen" type="file">
+
+                    <div class="dragArea">
+                        <input type="file" name="imagenes[]" id="imagenes" data-multiple-caption="{count} files selected" multiple>
+                        <label for="imagenes"><strong>Elige las imagenes</strong> o jalalas hasta aqui!</label>
+                        <div id="contenedorImagenes">
+                        </div>
                     </div>
+                    
                     <div class="grupoInput">
                         <label class="etiquetaForm" for="nombre">Marca del producto</label>
                         <span class="mensaje_form" id="form_agregar_mensaje_marca"></span>
@@ -204,5 +212,6 @@ $arrSubcat = $subcategoria->listaSubcategorias();
     <script src="js/modales.js"></script>
     <script src="js/axios_productos.js"></script>
     <script src="js/previsualizar_imgProducto.js"></script>
+    <script src="js/dragDropv2.js"></script>
 </body>
 </html>
