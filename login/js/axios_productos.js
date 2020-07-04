@@ -22,6 +22,7 @@ const sSubcategoria = document.getElementById('selectSubcategoria');
 //Para el formulario agregar
 const agregarCabecera = document.getElementById("cabeceraModalAgregar");
 const agregarMensajePrincipal = document.getElementById("mensaje_agregar");
+const agregarMensajeId = document.getElementById("form_agregar_mensaje_id");
 const agregarMensajeNombre = document.getElementById("form_agregar_mensaje_nombre");
 const agregarMensajeCategoria = document.getElementById("form_agregar_mensaje_categoria");
 const agregarMensajeSubcategoria = document.getElementById("form_agregar_mensaje_subcategoria");
@@ -165,23 +166,31 @@ function agregarPorAxios(){
     .then(response =>{
         let resp = response.data;
         console.log(resp);
+        
         agregarMensajePrincipal.innerHTML = resp.mensaje;
+        agregarMensajeId.innerHTML = resp.id;
         agregarMensajeNombre.innerHTML = resp.nombre;
-        agregarMensajeImagen.innerHTML = resp.imagen;
+        //agregarMensajeImagen.innerHTML = resp.imagen;
 
         if(resp.error){
             agregarCabecera.style.backgroundColor = "lightcoral";
         }else{
-            formAgregar.reset();
-            llenarSubcategorias(); //actualizar la lista desplegable de subcategorias
-            actualizarTabla(); // actualizar la tabla
+            //formAgregar.reset();
+            //llenarSubcategorias(); //actualizar la lista desplegable de subcategorias
+            //actualizarTabla(); // actualizar la tabla
             agregarCabecera.style.backgroundColor = "lightgreen";
             setTimeout(() => {
-                agregarMensajePrincipal.style.display = "none";
-                agregarCabecera.style.backgroundColor = "white";
-            }, 1000);
+                //agregarMensajePrincipal.style.display = "none";
+                //agregarCabecera.style.backgroundColor = "white";
+                location.reload();
+            }, 500);
             console.log("success ajax function");
         }
+    })
+    .catch(err =>{
+        console.log(err);
+        agregarCabecera.style.backgroundColor = "lightcoral";
+        agregarMensajePrincipal.innerHTML = err.response;
     });
 }
 
@@ -223,13 +232,15 @@ function borrarProductos(){
     .then(respuesta =>{
         console.log(respuesta.data.mensaje);
         if(respuesta.data.exito){
-            actualizarTabla(); // actualizar la tabla
+            //actualizarTabla(); // actualizar la tabla
             borrarCabecera.style.backgroundColor = "lightgreen";
             borrarMensaje.innerHTML = respuesta.data.mensaje;
             setTimeout(() => {
-                borrarMensaje.innerHTML = "";
+                /*borrarMensaje.innerHTML = "";
                 borrarCabecera.style.backgroundColor = "white";
                 cerrar_modal("borrarModal");
+                */
+               location.reload();
             }, 1000);
         }else{
             borrarCabecera.style.backgroundColor = "lightcoral";

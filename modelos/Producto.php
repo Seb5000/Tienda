@@ -12,7 +12,7 @@ class Producto{
     public $nombre;
     public $marca;
     public $precio;
-    public $imagen;
+    public $imagenes = array();
     public $descripcion;
 
     public $queryE;
@@ -57,7 +57,6 @@ class Producto{
                 p.NOMBRE_PRODUCTO,
                 p.MARCA_PRODUCTO,
                 p.PRECIO_PRODUCTO,
-                p.IMAGEN_PRODUCTO,
                 p.DESCRIPCION_PRODUCTO
                 FROM PRODUCTO p
                     INNER JOIN CATEGORIA c ON p.ID_CATEGORIA = c.ID_CATEGORIA
@@ -80,7 +79,6 @@ class Producto{
                 p.NOMBRE_PRODUCTO,
                 p.MARCA_PRODUCTO,
                 p.PRECIO_PRODUCTO,
-                p.IMAGEN_PRODUCTO,
                 p.DESCRIPCION_PRODUCTO
                 FROM PRODUCTO p
                     LEFT OUTER JOIN CATEGORIA c ON p.ID_CATEGORIA = c.ID_CATEGORIA
@@ -107,7 +105,6 @@ class Producto{
                     'nombre_subcategoria'=>$fila['NOMBRE_SUBCATEGORIA'],
                     'marca'=>$fila['MARCA_PRODUCTO'],
                     'precio'=>$fila['PRECIO_PRODUCTO'],
-                    'imagen'=>$fila['IMAGEN_PRODUCTO'],
                     'descripcion'=>$fila['DESCRIPCION_PRODUCTO']
                 );
                 array_push($arr_prod, $producto);
@@ -146,15 +143,30 @@ class Producto{
         return $id;
     }
 
+    public function existeId($id){
+        $query = 'SELECT NOMBRE_PRODUCTO FROM PRODUCTO WHERE ID_PRODUCTO = :id';
+        $stmt = $this->conn->prepare($query);
+        $id = htmlspecialchars(strip_tags($id));
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $num = $stmt->rowCount();
+        if($num>0){
+            $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+            $nombre = $fila['NOMBRE_PRODUCTO'];
+            return array(true, $nombre);
+        }
+        return array(false, '');
+    }
+
     public function agregar(){
         $query = "INSERT INTO PRODUCTO
                     SET
+                        ID_PRODUCTO = :id_producto,
                         ID_CATEGORIA = :id_categoria,
                         ID_SUBCATEGORIA = :id_subcategoria,
                         NOMBRE_PRODUCTO = :nombre_producto,
                         MARCA_PRODUCTO = :marca_producto,
                         PRECIO_PRODUCTO = :precio_producto,
-                        IMAGEN_PRODUCTO = :imagen_producto,
                         DESCRIPCION_PRODUCTO = :descripcion_producto";
         
         $stmt = $this->conn->prepare($query);
@@ -164,23 +176,23 @@ class Producto{
         //$this->id_categoria = htmlspecialchars(strip_tags($this->id_categoria));
         //$this->id_subcategoria = htmlspecialchars(strip_tags($this->id_subcategoria));
 
+        $this->id = htmlspecialchars(strip_tags($this->id));
         $this->nombre = htmlspecialchars(strip_tags($this->nombre));
         $this->marca = htmlspecialchars(strip_tags($this->marca));
         //$this->precio = htmlspecialchars(strip_tags($this->precio));
-        $this->imagen = htmlspecialchars(strip_tags($this->imagen));
         $this->descripcion = htmlspecialchars(strip_tags($this->descripcion));
         
         //Relacionar los datos
         //$this->id_categoria = null;
         //$this->id_subcategoria = null;
 
+        $stmt->bindValue(':id_producto', $this->id, PDO::PARAM_INT);
         $stmt->bindValue(':id_categoria', $this->id_categoria, PDO::PARAM_INT);
         $stmt->bindValue(':id_subcategoria', $this->id_subcategoria, PDO::PARAM_INT);
 
         $stmt->bindParam(':nombre_producto', $this->nombre);
         $stmt->bindParam(':marca_producto', $this->marca);
         $stmt->bindValue(':precio_producto', $this->precio, PDO::PARAM_INT);
-        $stmt->bindParam(':imagen_producto', $this->imagen);
         $stmt->bindParam(':descripcion_producto', $this->descripcion);
         
         try{
@@ -225,7 +237,6 @@ class Producto{
                     s.NOMBRE_SUBCATEGORIA,
                     p.MARCA_PRODUCTO,
                     p.PRECIO_PRODUCTO,
-                    p.IMAGEN_PRODUCTO,
                     p.DESCRIPCION_PRODUCTO
                     FROM PRODUCTO p
                         LEFT OUTER JOIN CATEGORIA c ON p.ID_CATEGORIA = c.ID_CATEGORIA
@@ -251,13 +262,87 @@ class Producto{
             $this->nombre_subcategoria = $fila['NOMBRE_SUBCATEGORIA'];
             $this->marca = $fila['MARCA_PRODUCTO'];
             $this->precio = $fila['PRECIO_PRODUCTO'];
-            $this->imagen = $fila['IMAGEN_PRODUCTO'];
             $this->descripcion = $fila['DESCRIPCION_PRODUCTO'];
             return true;
         }
 
         $this->error = "No se encontro el producto seleccionado, ".$stmt->error;
         return false;
+    }
+
+    public function obtenerProductoArr($id){
+        $query = "SELECT
+                    p.ID_PRODUCTO,
+                    p.NOMBRE_PRODUCTO,
+                    p.ID_CATEGORIA,
+                    c.NOMBRE_CATEGORIA,
+                    p.ID_SUBCATEGORIA,
+                    s.NOMBRE_SUBCATEGORIA,
+                    p.MARCA_PRODUCTO,
+                    p.PRECIO_PRODUCTO,
+                    p.DESCRIPCION_PRODUCTO
+                    FROM PRODUCTO p
+                        LEFT OUTER JOIN CATEGORIA c ON p.ID_CATEGORIA = c.ID_CATEGORIA
+                        LEFT OUTER JOIN SUBCATEGORIA s ON p.ID_SUBCATEGORIA = s.ID_SUBCATEGORIA
+                    WHERE p.ID_PRODUCTO = :id";
+
+        $stmt = $this->conn->prepare($query);
+        $id = htmlspecialchars(strip_tags($id));
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $num = $stmt->rowCount();
+        $err = false;
+        $producto = array();
+        if($num>0){
+            $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+            $producto['nombre'] = $fila['NOMBRE_PRODUCTO'];
+            $producto['id_categoria'] = $fila['ID_CATEGORIA'];
+            $producto['nombre_categoria'] = $fila['NOMBRE_CATEGORIA'];
+            $producto['id_subcategoria'] = $fila['ID_SUBCATEGORIA'];
+            $producto['nombre_subcategoria'] = $fila['NOMBRE_SUBCATEGORIA'];
+            $producto['marca'] = $fila['MARCA_PRODUCTO'];
+            $producto['precio'] = $fila['PRECIO_PRODUCTO'];
+            $producto['descripcion'] = $fila['DESCRIPCION_PRODUCTO'];
+            $producto['imagenes'] = array();
+        }else{
+            $this->error = "No se encontro el producto seleccionado, ".$stmt->error;
+            $err = true;
+        }
+
+        if(!$err){
+            $query = "SELECT
+                    ID_IMAGEN,
+                    ID_PRODUCTO,
+                    CAMINO_IMAGEN,
+                    CAMINO_SM_IMAGEN,
+                    PRINCIPAL_IMAGEN,
+                    ORDEN_IMAGEN
+                    FROM IMAGENES
+                    WHERE ID_PRODUCTO = :id
+                    ORDER BY ORDEN_IMAGEN ASC";
+
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            $num = $stmt->rowCount();
+            if($num>0){
+                while($fila = $stmt->fetch(PDO::FETCH_ASSOC)){
+                    $imagen = array(
+                        'id'=>$fila['ID_IMAGEN'],
+                        'id_producto'=>$fila['ID_PRODUCTO'],
+                        'camino_imagen'=>$fila['CAMINO_IMAGEN'],
+                        'camino_sm_imagen'=>$fila['CAMINO_SM_IMAGEN'],
+                        'principal'=>$fila['PRINCIPAL_IMAGEN'],
+                        'orden'=>$fila['ORDEN_IMAGEN'],
+                    );
+                    $nombreimg = pathinfo($imagen['camino_imagen'], PATHINFO_FILENAME);
+                    if($nombreimg != "defecto"){
+                        array_push($producto['imagenes'], $imagen);
+                    }
+                }
+            }
+        }
+        return $producto;
     }
 
     public function guardarProducto(){
@@ -268,7 +353,6 @@ class Producto{
                         ID_SUBCATEGORIA = $this->id_subcategoria,
                         MARCA_PRODUCTO = :marca,
                         PRECIO_PRODUCTO = :precio,
-                        IMAGEN_PRODUCTO = :imagen,
                         DESCRIPCION_PRODUCTO = :descripcion
                     WHERE 
                         ID_PRODUCTO = :id";
@@ -287,7 +371,6 @@ class Producto{
         $stmt->bindParam(':nombre', $this->nombre);
         $stmt->bindParam(':marca', $this->marca);
         $stmt->bindParam(':precio', $this->precio);
-        $stmt->bindParam(':imagen', $this->imagen);
         $stmt->bindParam(':descripcion', $this->descripcion);
         
         try{
@@ -338,10 +421,14 @@ class Producto{
                     s.NOMBRE_SUBCATEGORIA,
                     p.MARCA_PRODUCTO,
                     p.PRECIO_PRODUCTO,
-                    p.DESCRIPCION_PRODUCTO
+                    p.DESCRIPCION_PRODUCTO,
+                    i.CAMINO_IMAGEN,
+                    i.CAMINO_SM_IMAGEN
                     FROM PRODUCTO p
                         LEFT OUTER JOIN CATEGORIA c ON p.ID_CATEGORIA = c.ID_CATEGORIA
-                        LEFT OUTER JOIN SUBCATEGORIA s ON p.ID_SUBCATEGORIA = s.ID_SUBCATEGORIA";
+                        LEFT OUTER JOIN SUBCATEGORIA s ON p.ID_SUBCATEGORIA = s.ID_SUBCATEGORIA
+                        JOIN IMAGENES i ON p.ID_PRODUCTO = i.ID_PRODUCTO
+                    WHERE i.PRINCIPAL_IMAGEN = 1";
         //CONDICION LIMITES DE LA QUERY
         $condicionLimites = "LIMIT $iniciar , $numFilas";
         //CONDICION DE CATEGORIA
@@ -358,14 +445,17 @@ class Producto{
         $query = $queryBase;
         $union = "";
         $condiciones = "";
-        $condicionAgregada = false;
+        $condicionAgregada = true;
 
-        //SI EXISTE ALGUNCA CONDICION
+        //SI EXISTE ALGUNCA CONDICION... ya existe con lo de las imagenes
+        /*
         if($nombre != null or $idCategoria != null or $idSubcategoria != null){
             $condiciones = " WHERE ";
         }
+        */
 
         if($nombre != null){
+            $union = ($condicionAgregada)? " AND " : "";
             $condiciones = $condiciones.$condicionNombre;
             $condicionAgregada = true;
         }
@@ -415,6 +505,8 @@ class Producto{
                     'marca' => $fila['MARCA_PRODUCTO'],
                     'precio' => $fila['PRECIO_PRODUCTO'],
                     'descripcion' => $fila['DESCRIPCION_PRODUCTO'],
+                    'imagen' => $fila['CAMINO_IMAGEN'],
+                    'imagen_s' => $fila['CAMINO_SM_IMAGEN']
                 );
                 array_push($arr_prod, $producto);
             }
@@ -438,7 +530,6 @@ class Producto{
                     s.NOMBRE_SUBCATEGORIA,
                     p.MARCA_PRODUCTO,
                     p.PRECIO_PRODUCTO,
-                    p.IMAGEN_PRODUCTO,
                     p.DESCRIPCION_PRODUCTO
                     FROM PRODUCTO p
                         LEFT OUTER JOIN CATEGORIA c ON p.ID_CATEGORIA = c.ID_CATEGORIA
@@ -470,7 +561,6 @@ class Producto{
                     'nombreS' => $fila['NOMBRE_SUBCATEGORIA'],
                     'marca' => $fila['MARCA_PRODUCTO'],
                     'precio' => $fila['PRECIO_PRODUCTO'],
-                    'imagen' => $fila['IMAGEN_PRODUCTO'],
                     'descripcion' => $fila['DESCRIPCION_PRODUCTO'],
                 );
                 array_push($arr_prod, $producto);
@@ -489,7 +579,6 @@ class Producto{
                     s.NOMBRE_SUBCATEGORIA,
                     p.MARCA_PRODUCTO,
                     p.PRECIO_PRODUCTO,
-                    p.IMAGEN_PRODUCTO,
                     p.DESCRIPCION_PRODUCTO
                     FROM PRODUCTO p
                         LEFT OUTER JOIN CATEGORIA c ON p.ID_CATEGORIA = c.ID_CATEGORIA
@@ -523,7 +612,6 @@ class Producto{
                     'nombreS' => $fila['NOMBRE_SUBCATEGORIA'],
                     'marca' => $fila['MARCA_PRODUCTO'],
                     'precio' => $fila['PRECIO_PRODUCTO'],
-                    'imagen' => $fila['IMAGEN_PRODUCTO'],
                     'descripcion' => $fila['DESCRIPCION_PRODUCTO'],
                 );
                 array_push($arr_prod, $producto);

@@ -1,18 +1,23 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/baseDatos.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Producto.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Imagen.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/redim2.php';
+
 //header('Content-Type: application/json');
 $bd = new DataBase();
 
 $conn = $bd->conectar();
 
 $producto = new Producto($conn);
+$ImagenC = new Imagen($conn);
 
 $respuesta = array();
 $err = false;
 
 // VALIDACION PARA EL ID
 $respuesta['id']="";
+$id =1;
 if(isset($_POST['id'])){
     $id = $_POST['id'];
     if(empty($id)){
@@ -21,6 +26,14 @@ if(isset($_POST['id'])){
     }elseif(!is_numeric($id)){
         $err = true;
         $respuesta['id']="El id debe ser numerico";
+    }else{
+        //consultar si el id ya existe
+        list($existe, $nombreProducto) = $producto->existeId($id);
+        if($existe){
+            //Ya existe ese id
+            $respuesta['id']="Ya existe el id: $id, esta asociado al producto: $nombreProducto";
+            $err=true;
+        }
     }
 }else{
     $err = true;
@@ -81,22 +94,27 @@ if(isset($_POST['precio'])){
 $respuesta['imagen']="";
 $cargoImagen=false;
 $orden = 1;
-$principal = true;
+$principal = 1;
 $imagenes = array();
+$arrayAux = array();
 if(isset($_FILES['imagenesDD'])){
+    $cargoImagen = true;
     $archivos = reArray($_FILES['imagenesDD']);
-    $img = array();
     foreach($archivos as $imagen){
         if($imagen['error']){
             $respuesta['imagen'] .= "Error al subir el archivo ".$imagen['name']." ER".$imagen["error"]." - ";
         }else{
-            $nombre = $imagen['name'];
+            $nombreImg = $imagen['name'];
             $extensiones_permitidas= ["jpg", "jpeg", "png", "gif", "svg", "webp"];
-            $extension_imagen = strtolower(pathinfo($nombre, PATHINFO_EXTENSION));
+            $extension_imagen = strtolower(pathinfo($nombreImg, PATHINFO_EXTENSION));
             if(in_array($extension_imagen, $extensiones_permitidas)){
+                $img = array();
+                $subArrAux = array();
+                $img["id_producto"] = $id;
                 $img["principal"] = $principal;
-                if($principal == true){
-                    $img = false;
+                $subArrAux["principal"] = $principal;
+                if($principal == 1){
+                    $principal = 0;
                 }
                 $img["orden"] = $orden;
                 $orden++;
@@ -104,12 +122,16 @@ if(isset($_FILES['imagenesDD'])){
                 $nomImagen = $nomImagen.".".$extension_imagen;
                 $nomImagenS = "sm".$nomImagen;
                 $path_completo_imagen = $_SERVER['DOCUMENT_ROOT']."/tio/imagenes/productos/".$nomImagen;
-                $path_completo_imagenS = $_SERVER['DOCUMENT_ROOT']."/tio/imagenes/categorias/".$nomImagenS;
+                $path_completo_imagenS = $_SERVER['DOCUMENT_ROOT']."/tio/imagenes/productos/".$nomImagenS;
                 $path_parcial_imagen = "/tio/imagenes/productos/".$nomImagen;
-                $path_parcial_imagenS = "/tio/imagenes/categorias/".$nomImagenS;
-                $img["camino"]=$path_parcial_imagen;
-                $img["camino_s"]=$path_parcial_imagenS;
+                $path_parcial_imagenS = "/tio/imagenes/productos/".$nomImagenS;
+                $img["camino_imagen"]=$path_parcial_imagen;
+                $img["camino_sm_imagen"]=$path_parcial_imagenS;
+                $subArrAux["camino"] = $path_completo_imagen;
+                $subArrAux["camino_s"] = $path_completo_imagenS;
+                $subArrAux["tmp_name"] = $imagen["tmp_name"];
                 array_push($imagenes, $img);
+                array_push($arrayAux, $subArrAux);
             }else{
                 $respuesta['imagen'] .= "Extension del archivo ".$imagen['name']."no permitida - ";
             }
@@ -118,10 +140,11 @@ if(isset($_FILES['imagenesDD'])){
 }else{
     $nomImagen = "defecto.svg";
     $path_parcial_imagen = "/tio/imagenes/".$nomImagen;
-    $img["principal"] = $true;
+    $img["id_producto"] = $id;
+    $img["principal"] = true;
     $img["orden"] = 1;
-    $img["camino"]=$path_parcial_imagen;
-    $img["camino_s"]=$path_parcial_imagen;
+    $img["camino_imagen"]=$path_parcial_imagen;
+    $img["camino_sm_imagen"]=$path_parcial_imagen;
     array_push($imagenes, $img);
     //$respuesta["mensaje"] = "No se realizo la peticion correctamente...";
     //echo json_encode($respuesta);
@@ -168,10 +191,36 @@ if(!$err){ //SI NO OCURRIO NINGUN ERROR EN LA VALIDACION
 
     if($query){ //SI LA QUERY FUE EXITOSA
         //MOVER EL ARCHIVO DENTRO DE LA CARPETA SI SE CARGO UNA IMAGEN
+        /*
         if($cargoImagen){
             move_uploaded_file($_FILES['imagen']['tmp_name'], $path_completo_imagen);
         }
+        */
         $respuesta["mensaje"] = "Se agrego existosamente el registro";
+        $respQueryImg = $ImagenC->insertarImagenes($imagenes);
+        if($respQueryImg){
+            if($cargoImagen){
+                foreach($arrayAux as $subA){
+                    if(isset($subA["camino"])){
+                        move_uploaded_file($subA['tmp_name'], $subA["camino"]);
+                        if($subA["principal"]){
+                            redimensionar($subA["camino"], $subA["camino_s"], 320, 320, 70);
+                        }else{
+                            redimensionar($subA["camino"], $subA["camino_s"], 100, 100, 60);
+                        }
+                        redimensionar($subA["camino"], $subA["camino"], 800, 600, 80);
+                    }
+                }   
+            }
+        }else{
+            $err = true;
+            $respuesta["error"] = $ImagenC->getError();
+            //$respuesta["query"] = $ImagenC->getQuery();
+            $respuesta["mensaje"] = "Ocurrio un error al agregar las imagenes";
+        }
+        
+        //$respuesta["arrimg"]= $imagenes;
+        //$respuesta["arr2IMG"]= $arrayAux;
     }else{
         $err = true;
         $respuesta["mensaje"] = "Ocurrio un error: ".$producto->error;

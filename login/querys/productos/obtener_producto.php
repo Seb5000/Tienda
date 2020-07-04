@@ -25,7 +25,7 @@ if(isset($data['id'])){
         $respuesta["producto"]["nomCat"] = $producto->nombre_categoria;
         $respuesta["producto"]["idSub"] = $producto->id_subcategoria;
         $respuesta["producto"]["nomSub"] = $producto->nombre_subcategoria;
-        $respuesta["producto"]["imagen"] = $producto->imagen;
+        //$respuesta["producto"]["imagen"] = $producto->imagen;
         $respuesta["producto"]["marca"] = $producto->marca;
         $respuesta["producto"]["precio"] = $producto->precio;
         $respuesta["producto"]["descripcion"] = $producto->descripcion;

@@ -129,7 +129,7 @@ echo "#Paginas ".$numero_de_paginas.PHP_EOL;
                 <td><?php echo $prod['nombreS']?></td>
                 <td>
                     <div class="contenedor_imagen">
-                        <img src="<?php echo $prod['imagen']?>" alt="">
+                        <img src="<?php echo $prod['imagen_s']?>" alt="">
                     </div>
                 </td>
                 <td><?php echo $prod['marca']?></td>

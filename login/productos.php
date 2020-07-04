@@ -159,16 +159,14 @@ $arrSubcat = $subcategoria->listaSubcategorias();
                             <option value="" hidden>Elige una opcion...</option>
                         </select>
                     </div>
-                    <div class="grupoInput">
-                        <label for="editar_imagen">Imagen de la Subcategoria
-                            <div class="contenedor_vista_previa">
-                                <img id="vista_previa_imagen" src="" alt="">
-                            </div>
-                        </label>
-                        <span class="mensaje_form" id="editar_mensaje_imagen"></span>
-                        <input class="entradaForm" name="imagen" 
-                        type="file" id="editar_imagen">
+                    <!--
+                    <div class="dragArea">
+                        <input type="file" name="imagenes[]" id="imagenesE" data-multiple-caption="{count} files selected" multiple>
+                        <label for="imagenesE"><strong>Elige las imagenes</strong> o jalalas hasta aqui!</label>
+                        <div id="contenedorImagenesE">
+                        </div>
                     </div>
+                        -->
                     <div class="grupoInput">
                         <label class="etiquetaForm" for="editar_marca">Marca del producto</label>
                         <input class="entradaForm" name="marca" id="editar_marca" type="text">

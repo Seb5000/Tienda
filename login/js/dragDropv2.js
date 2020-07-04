@@ -68,7 +68,7 @@ function drop(e){
 function borrarElementoPadre(){
     let elemPadre = this.parentNode;
     let nombrePadre = elemPadre.getAttribute("nombre");
-    delete objFiles[nombrePadre]
+    delete objFiles[nombrePadre];
     elemPadre.remove();
     console.log(elemPadre);
     //contadorImagenes--;
