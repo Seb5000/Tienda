@@ -1,4 +1,9 @@
 <?php
+session_start();
+if(!isset($_SESSION['usuario'])){
+    header("Location: index.php?error=redireccion");
+    die();
+}
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/baseDatos.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Producto.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Categoria.php';
@@ -29,18 +34,24 @@ $arrSubcat = $subcategoria->listaSubcategorias();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../css/loginProductos.css">
+    <link rel="stylesheet" href="css/layoutBase.css">
+    <link rel="stylesheet" href="css/barraLogin.css">
+    <link rel="stylesheet" href="css/barraLateral.css">
+    <link rel="stylesheet" href="css/tablaCRUD.css">
+    <link rel="stylesheet" href="css/modales.css">
+    <link rel="stylesheet" href="css/dragDrop.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <div class="contenedor-principal">
     <?php include('compartido/barra_lateral.php');?>
     <div class="contenedor">
-        <h2>Productos</h2>
+        <?php include('compartido/barraLogin.php');?>
         <div id="contenedorAuxiliar">
-        <?php
-            include('querys/productos/tabla_productos.php');
-        ?>
+            <h2>Productos</h2>
+            <?php
+                include('querys/productos/tabla_productos.php');
+            ?>
         </div>
     </div>
 
@@ -90,10 +101,10 @@ $arrSubcat = $subcategoria->listaSubcategorias();
                         </select>
                     </div>
 
-                    <div class="dragArea">
+                    <div id="dragAreaAgregar" class="dragArea">
                         <input type="file" name="imagenes[]" id="imagenes" data-multiple-caption="{count} files selected" multiple>
                         <label for="imagenes"><strong>Elige las imagenes</strong> o jalalas hasta aqui!</label>
-                        <div id="contenedorImagenes">
+                        <div id="containerAgregar" class="container">
                         </div>
                     </div>
                     
@@ -131,8 +142,12 @@ $arrSubcat = $subcategoria->listaSubcategorias();
             </div>
             <form id="formulario_editar" action="" onsubmit="event.preventDefault(); guardarCambios();">
                 <div class="cuerpoModal">
-                    <input type="hidden" id="editar_id" name="id">
-                    <input type="hidden" id="editar_caminoImagen" name="caminoImagen">
+                    <input type="hidden" id="editar_antiguo_id" name="antiguoId">
+                    <div class="grupoInput">
+                        <label class="etiquetaForm" for="editar_id">Id del producto</label>
+                        <span class="mensaje_form" id="editar_mensaje_id"></span>
+                        <input class="entradaForm" name="id" id="editar_id" type="number">
+                    </div>
                     <div class="grupoInput">
                         <label class="etiquetaForm" for="editar_nombre">Nombre del producto</label>
                         <span class="mensaje_form" id="editar_mensaje_nombre"></span>
@@ -159,14 +174,15 @@ $arrSubcat = $subcategoria->listaSubcategorias();
                             <option value="" hidden>Elige una opcion...</option>
                         </select>
                     </div>
-                    <!--
-                    <div class="dragArea">
+                    
+                    <span class="mensaje_form" id="editar_mensaje_imagen"></span>
+                    <div id="dragAreaEditar" class="dragArea">
                         <input type="file" name="imagenes[]" id="imagenesE" data-multiple-caption="{count} files selected" multiple>
                         <label for="imagenesE"><strong>Elige las imagenes</strong> o jalalas hasta aqui!</label>
-                        <div id="contenedorImagenesE">
+                        <div id="containerEditar" class="container">
                         </div>
                     </div>
-                        -->
+                    
                     <div class="grupoInput">
                         <label class="etiquetaForm" for="editar_marca">Marca del producto</label>
                         <input class="entradaForm" name="marca" id="editar_marca" type="text">
@@ -207,9 +223,10 @@ $arrSubcat = $subcategoria->listaSubcategorias();
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="js/burger.js"></script>
     <script src="js/modales.js"></script>
     <script src="js/axios_productos.js"></script>
-    <script src="js/previsualizar_imgProducto.js"></script>
+    <!--<script src="js/previsualizar_imgProducto.js"></script>-->
     <script src="js/dragDropv2.js"></script>
 </body>
 </html>

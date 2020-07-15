@@ -1,0 +1,61 @@
+/* PARA LA BARRA LOGIN*/
+.barraLogin{
+    background-color: aliceblue;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid lightblue;
+    justify-content: flex-end;
+}
+
+.menuHamburgesa{
+    display: block;
+    margin: 3px;
+    cursor: pointer;
+    z-index: 10;
+    height: 25px;
+}
+
+.menuHamburgesa div{
+    width: 25px;
+	height: 3px;
+	background-color: black;
+	margin: 4px;
+	border-radius: 1px;
+	transition: all 0.3s ease;
+}
+
+.rotar .linea1{
+	transform: rotate(-45deg) translate(-6px, 4px);
+}
+.rotar .linea2{
+	opacity: 0;
+}
+.rotar .linea3{
+	transform: rotate(45deg) translate(-6px, -4px);
+}
+
+/*
+.linea1{
+    transform: rotate(-30deg) translate(-1px, 0px);
+}
+
+.linea2{
+    transform: rotate(30deg) translate(-1px, 0px);
+}
+*/
+
+.nombreUsuario{
+    font-size: 1.5em;
+    margin-left: 20px;
+    margin-right: auto;
+}
+
+.linkCerrarSesion{
+    border: none;
+    cursor: pointer;
+    margin: 15px;
+    font-size: 1rem;
+    background-color: transparent;
+}
+/* FIN BARRA LOGIN*/

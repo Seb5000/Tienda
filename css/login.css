@@ -115,3 +115,10 @@ form{
     margin-top: 20px;
     cursor: pointer;
 }
+
+@media (max-width: 600px) {
+    .contenedor-principal{
+        margin-top: 50px;
+    }
+}
+

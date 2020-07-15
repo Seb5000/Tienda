@@ -7,6 +7,7 @@ $nombre_sub_categoria = "";
 $bandera_sub_categoria = false;
 $lista_sub_categorias = [];
 
+
 if(isset($_GET['categoria'])){
     $id_categoria = $_GET['categoria'];
     if(!is_numeric($id_categoria)){
@@ -19,7 +20,7 @@ if(isset($_GET['categoria'])){
     if ($result->num_rows > 0) {
         //echo "Entro al if";
         while($row = $result->fetch_assoc()) {
-            echo "Entro al while";
+            //echo "Entro al while";
             $id_categoria = $row["ID_CATEGORIA"];
             $nombre_categoria= $row["NOMBRE_CATEGORIA"];
         }
@@ -84,9 +85,12 @@ if(isset($_GET['subcategoria'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/menu_categorias.css">
+    <!--<link rel="stylesheet" href="../css/menuTop.css">-->
 </head>
 
 <body>
+    <?php //include('../compartidos/menuTop.php'); ?>
+    
     <?php include('../compartidos/menu_productos.php'); ?>
 
     <section class="barraDirecciones">
@@ -133,87 +137,9 @@ if(isset($_GET['subcategoria'])){
                                 <?php echo $nombre_sub_categoria;?>
                             </h2>
                         </div>
-                        <ul class="cuadrilla_Productos">
-                            <?php
-                            /*
-                                if($sub_categoria == "defecto"){
-                                    $sql = "SELECT * FROM `subcategorias` WHERE `CATEGORIA_SUBCATEGORIA` LIKE 'pinturas' ";
-                                    $result = $conn->query($sql);
-                                    if ($result->num_rows > 0) {
-                                        while($row = $result->fetch_assoc()) {
-                                            echo '
-                                            <li>
-                                                <div class="producto">
-                                                    <div class="producto_foto">
-                                                        <img src="'.$row["IMAGEN_SUBCATEGORIA"].'" alt="">
-                                                    </div>
-                                                    <div class="producto_nombre">
-                                                        '.$row["NOMBRE_SUBCATEGORIA"].'
-                                                    </div>
-                                                    <div class="producto_numero">
-                                                        item #456789
-                                                    </div>
-                                                    <div class="producto_descripcion">
-                                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis necessitatibus, dolor, quam blanditiis possimus soluta doloribus autem, adipisci sed, suscipit a voluptatem. Sequi deserunt dolores, magnam molestias laudantium praesentium cum.
-                                                    </div>
-                                                    <div class="producto_precio">
-                                                        18 - 20 Bs
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            ';
-                                        }
-                                    }
-                                }else{
-
-                                }
-
-                                <li>
-                                    <div class="producto">
-                                        <div class="producto_foto">
-                                            <img src="https://picsum.photos/200/200" alt="">
-                                        </div>
-                                        <div class="producto_nombre">
-                                            producto prueba 123
-                                        </div>
-                                        <div class="producto_numero">
-                                            item #456789
-                                        </div>
-                                        <div class="producto_descripcion">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis necessitatibus, dolor, quam blanditiis possimus soluta doloribus autem, adipisci sed, suscipit a voluptatem. Sequi deserunt dolores, magnam molestias laudantium praesentium cum.
-                                        </div>
-                                        <div class="producto_precio">
-                                            18 - 20 Bs
-                                        </div>
-                                    </div>
-                                </li>
-
-                                <li>
-                                    <div class="producto">
-                                        <div class="producto_foto">
-                                            <img src="https://picsum.photos/200/200" alt="">
-                                        </div>
-                                        <div class="producto_nombre">
-                                            producto prueba 123
-                                        </div>
-                                        <div class="producto_numero">
-                                            item #456789
-                                        </div>
-                                        <div class="producto_descripcion">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis necessitatibus, dolor, quam blanditiis possimus soluta doloribus autem, adipisci sed, suscipit a voluptatem. Sequi deserunt dolores, magnam molestias laudantium praesentium cum.
-                                        </div>
-                                        <div class="producto_precio">
-                                            18 - 20 Bs
-                                        </div>
-                                    </div>
-                                </li>
-                            */
-                            
-                            include $_SERVER['DOCUMENT_ROOT'].'/tio/productos/cuadrilla_productos.php';
-                            ?>
-                            
-                            
-                        </ul>
+                        <?php
+                        include $_SERVER['DOCUMENT_ROOT'].'/tio/productos/cuadrilla_productos.php';
+                        ?>
                     </div>
                 </div>
             </div>

@@ -240,6 +240,50 @@ class Categoria{
         return $arr_cat;
     }
 
+    public function listaCategorias2(){
+        $query = 'SELECT ID_CATEGORIA, NOMBRE_CATEGORIA 
+                    FROM CATEGORIA';
+
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->execute();
+
+        $num = $stmt->rowCount();
+
+        //Crear un array respuesta
+        $arr_cat = array();
+        //Si existe algun producto
+        if($num>0){
+            while($fila = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $item = array(
+                    'id'=>$fila['ID_CATEGORIA'],
+                    'nombre'=>$fila['NOMBRE_CATEGORIA'],
+                    'subcategorias'=>array()
+                );
+                array_push($arr_cat, $item);
+            }
+        }
+
+        for($i=0; $i<count($arr_cat); $i++){
+            $query = 'SELECT ID_SUBCATEGORIA, NOMBRE_SUBCATEGORIA 
+                    FROM SUBCATEGORIA
+                    WHERE ID_CATEGORIA = '.$arr_cat[$i]["id"];
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            $num = $stmt->rowCount();
+            if($num>0){
+                while($fila = $stmt->fetch(PDO::FETCH_ASSOC)){
+                    $item = array(
+                        'id'=>$fila['ID_SUBCATEGORIA'],
+                        'nombre'=>$fila['NOMBRE_SUBCATEGORIA'],
+                    );
+                    array_push($arr_cat[$i]["subcategorias"], $item);
+                }
+            }
+        }
+        return $arr_cat;
+    }
+
     public function existeId($idQuery){
         if(!is_numeric($idQuery)) return false; //SI NO ES NUMERICO DEVUELVE FALSO
 

@@ -16,7 +16,7 @@ function calcWidth() {
     $('#menu > li:not(.more)').each(function () {
         navwidth += $(this).outerWidth(true);
     });
-    var availablespace = $('#menu').width() - morewidth;
+    var availablespace = $('#menu').width() + elementSize - morewidth;
     console.log("navwidth : " + navwidth + " Available space " + availablespace);
     console.log("Llamado a calcwidth..");
 

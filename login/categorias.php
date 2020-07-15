@@ -1,7 +1,11 @@
-<?php 
-    include('insert_data.php');
+<?php
+    session_start();
+    if(!isset($_SESSION['usuario'])){
+        header("Location: index.php?error=redireccion");
+        die();
+    }
     include('../compartidos/conexion_bd.php');
-    $actual = 'categorias2';
+    $actual = 'categorias';
 
     if(isset($_GET['cantidad']) and isset($_GET['pagina'])){
         $catidad_x_pagina = $_GET['cantidad'];
@@ -18,7 +22,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Categorias</title>
-    <link rel="stylesheet" href="../css/categorias.css">
+    <link rel="stylesheet" href="css/layoutBase.css">
+    <link rel="stylesheet" href="css/barraLogin.css">
+    <link rel="stylesheet" href="css/barraLateral.css">
+    <link rel="stylesheet" href="css/tablaCRUD.css">
+    <link rel="stylesheet" href="css/modales.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 </head>
@@ -27,11 +35,12 @@
     <div class="contenedor-principal">
         <?php include('compartido/barra_lateral.php');?>
         <div class="contenedor">
-            <h2>Categorias</h2>
+            <?php include('compartido/barraLogin.php');?>
             <div id="contenedorAuxiliar">
-            <?php
-                include('querys/categorias/tabla.php');
-            ?>
+                <h2>Categorias</h2>
+                <?php
+                    include('querys/categorias/tabla.php');
+                ?>
             </div>
         </div>
         <!-- Backdrop -->
@@ -148,6 +157,7 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="js/burger.js"></script>
     <script src="js/modales.js"></script>
     <script src="js/categoria.js"></script>
 </body>

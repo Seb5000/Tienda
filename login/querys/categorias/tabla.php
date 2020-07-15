@@ -10,15 +10,15 @@ $catidad_x_pagina = $_GET['cantidad']?? 10;
 $pagina = $_GET['pagina']?? 1;
 $offset = ($pagina-1)*$catidad_x_pagina;
 
-echo "Cantidad ".$catidad_x_pagina.PHP_EOL;
-echo "Pagina ".$pagina.PHP_EOL;
+//echo "Cantidad ".$catidad_x_pagina.PHP_EOL;
+//echo "Pagina ".$pagina.PHP_EOL;
 
 $arrCategoria = $objCat->getCategorias($offset, $catidad_x_pagina);
 
 $total_categorias = $objCat->numeroFilas();
 $numero_de_paginas = ceil($total_categorias/$catidad_x_pagina);
-echo "total_categorias ".$total_categorias.PHP_EOL;
-echo "#Paginas ".$numero_de_paginas.PHP_EOL;
+//echo "total_categorias ".$total_categorias.PHP_EOL;
+//echo "#Paginas ".$numero_de_paginas.PHP_EOL;
 ?>
 
 <div id="contenedorTabla">
@@ -30,51 +30,53 @@ echo "#Paginas ".$numero_de_paginas.PHP_EOL;
         </div>
     </div>
     
-    <table id="tablaPrincipal">
-        <thead>
-            <tr>
-                <th>
-                    <input type="checkbox" id="selecionarTodos">
-                </th>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Imagen</th>
-                <th>Logo</th>
-                <th>Descripcion</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            foreach($arrCategoria as $cat){
-            ?>
-            <tr>
-                <td>
-                    <input type="checkbox" name="opciones[]">
-                </td>
-                <td><?php echo $cat['id']?></td>
-                <td><?php echo $cat['nombre']?></td>
-                <td>
-                    <div class="contenedor_imagen">
-                        <img src="<?php echo $cat['imagen']?>" alt="">
-                    </div>
-                </td>
-                <td>
-                    <div class="contenedor_imagen">
-                        <img src="<?php echo $cat['logo']?>" alt="">
-                    </div>
-                </td>
-                <td><?php echo $cat['descripcion']?></td>
-                <td>
-                    <button onclick="confirmarBorrar(this)">Borrar</button>
-                    <button onclick="editarCategoria(this)">Editar</button>
-                </td>
-            </tr>
-            <?php
-            }
-            ?>
-        </tbody>
-    </table>
+    <div class="tabla">
+        <table id="tablaPrincipal">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="selecionarTodos">
+                    </th>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Imagen</th>
+                    <th>Logo</th>
+                    <th>Descripcion</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach($arrCategoria as $cat){
+                ?>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="opciones[]">
+                    </td>
+                    <td><?php echo $cat['id']?></td>
+                    <td><?php echo $cat['nombre']?></td>
+                    <td>
+                        <div class="contenedor_imagen">
+                            <img src="<?php echo $cat['imagen']?>" alt="">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="contenedor_imagen">
+                            <img src="<?php echo $cat['logo']?>" alt="">
+                        </div>
+                    </td>
+                    <td><?php echo $cat['descripcion']?></td>
+                    <td>
+                        <button onclick="confirmarBorrar(this)">Borrar</button>
+                        <button onclick="editarCategoria(this)">Editar</button>
+                    </td>
+                </tr>
+                <?php
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
     <?php 
         if(count($arrCategoria)==0):
     ?>

@@ -38,7 +38,9 @@ const borrarMensaje = document.getElementById('mensaje_borrar');
 //para el formulario editar
 const editarCabecera = document.getElementById("cabeceraModalEditar");
 const editarMensaje = document.getElementById("mensaje_editar");
+const editarAntiguoId = document.getElementById("editar_antiguo_id");
 const editarId = document.getElementById("editar_id");
+const editarMensajeId = document.getElementById("editar_mensaje_id");
 const editarNombre = document.getElementById("editar_nombre");
 const editarMensajeNombre = document.getElementById("editar_mensaje_nombre"); //El mensaje
 const editarCategoria = document.getElementById("editarSelectCategoria");
@@ -47,7 +49,6 @@ const editarSubcategoria = document.getElementById("editarSelectSubcategoria");
 const editarMensajeSubcategoria = document.getElementById("editar_mensaje_subcategoria"); //El mensaje
 const vistaPreviaImagen = document.getElementById("vista_previa_imagen");
 const editarCaminoImagen = document.getElementById("editar_caminoImagen");
-const editarImagen = document.getElementById("editar_imagen");
 const editarMensajeImagen = document.getElementById("editar_mensaje_imagen");
 const editarMarca = document.getElementById("editar_marca");
 const editarPrecio = document.getElementById("editar_precio");
@@ -140,15 +141,33 @@ function llenarSubcategoriasE(){
     });
 }
 
-function obtenerListaImagenes(){
-    const contenedorImagenes = document.getElementById("contenedorImagenes");
-    let contImg = contenedorImagenes.querySelectorAll(".contImg");
+function obtenerListaImagenes(contenedor){
+    //const containerAgregar = document.getElementById("containerAgregar");
+    let contImg = contenedor.querySelectorAll(".contImg");
     let lista = [];
     contImg.forEach(cont =>{
         let nom = cont.getAttribute("nombre");
-        lista.push(nom);
+        let nuevo = cont.getAttribute("nuevo");
+        if(nuevo == "true"){
+            lista.push(nom);
+        }
     });
     return lista;
+}
+
+function actualizarOrden(){
+    imagenesOrden = [];
+    const contenedorEditar = document.getElementById("containerEditar");
+    let contImg = contenedorEditar.querySelectorAll(".contImg");
+    for(let i =0; i<contImg.length; i++){
+        let nombre = contImg[i].getAttribute("nombre");
+        let nuevo = contImg[i].getAttribute("nuevo");
+        if(nuevo == "true"){
+            imagenesOrden.push(i+1);
+        }else if(nuevo == "false"){
+            imagenesBD[nombre]=i+1;
+        }
+    }
 }
 
 function agregarPorAxios(){
@@ -156,7 +175,7 @@ function agregarPorAxios(){
     //borramos las imagenes ingresadas por el input
     formData.delete("imagenes[]");
     //agregammos las imagenes que estan dentro del drag and drop
-    let lis = obtenerListaImagenes();
+    let lis = obtenerListaImagenes(document.getElementById("containerAgregar"));
     // Nota objFiles esta declarado en el archivo dragDropv2.js
     lis.forEach(elem =>{
         formData.append("imagenesDD[]", objFiles[elem]);
@@ -179,6 +198,8 @@ function agregarPorAxios(){
             //llenarSubcategorias(); //actualizar la lista desplegable de subcategorias
             //actualizarTabla(); // actualizar la tabla
             agregarCabecera.style.backgroundColor = "lightgreen";
+            //resetear el objfiles
+            objFiles = {cont:0};
             setTimeout(() => {
                 //agregarMensajePrincipal.style.display = "none";
                 //agregarCabecera.style.backgroundColor = "white";
@@ -258,50 +279,60 @@ function editar(id){
     .then(respuesta =>{
         let objResp = respuesta.data;
         console.log(objResp);
+        //window.e = objResp;
         if(objResp.exito){
-            console.log(objResp);
+            //console.log(objResp);
             let producto = objResp.producto;
+            editarAntiguoId.value = producto.id;
             editarId.value = producto.id;
             editarNombre.value = producto.nombre;
-            if(producto.idCat == "NULL"){
+            console.log("Editar categoria = ", producto.id_categoria);
+            console.log("producto.id_categoria == 'NULL'" , producto.id_categoria == null);
+            window.e = producto.id_categoria;
+            if(producto.id_categoria == null){
                 editarCategoria.value = -1;
             }else{
-                editarCategoria.value = producto.idCat;
+                editarCategoria.value = producto.id_categoria;
             }
             // Primera promesa de mi vida
             // NO FUNCIONO
-            /*
-            let promesa = new Promise((resolve, reject) =>{
-                let respuesta = llenarSubcategoriasE();
-                if(respuesta==true){
-                    resolve("Esto funciono");
-                }else{
-                    resolve("Esto nooo funcionoo");
-                }
-            });
-            promesa.then(respuesta =>{
-                console.log(respuesta);
-                if(producto.idSub == "NULL"){
-                    console.log("va cambia el select de subcategorias");
-                    editarSubcategoria.value = -1;
-                }else{
-                    console.log("va cambia el select de subcategorias");
-                    editarSubcategoria.value = producto.idSub;
-                }
-            });
-            */
+            
+            //let promesa = new Promise((resolve, reject) =>{
+            //    let respuesta = llenarSubcategoriasE();
+            //    if(respuesta==true){
+            //        resolve("Esto funciono");
+            //    }else{
+            //        resolve("Esto nooo funcionoo");
+            //    }
+            //});
+            //promesa.then(respuesta =>{
+            //   console.log(respuesta);
+            //    if(producto.idSub == "NULL"){
+            //        console.log("va cambia el select de subcategorias");
+            //        editarSubcategoria.value = -1;
+            //    }else{
+            //        console.log("va cambia el select de subcategorias");
+            //        editarSubcategoria.value = producto.idSub;
+            //    }
+            //});
+            //
             llenarSubcategoriasE().then(resp =>{
                 console.log("la respuesta...: "+resp);
-                if(producto.idSub == "NULL"){
+                if(producto.id_subcategoria == null){
                     console.log("va cambia el select de subcategorias");
                     editarSubcategoria.value = -1;
                 }else{
                     console.log("va cambia el select de subcategorias");
-                    editarSubcategoria.value = producto.idSub;
+                    editarSubcategoria.value = producto.id_subcategoria;
                 }
             });
-            editarCaminoImagen.value = producto.imagen;
-            vistaPreviaImagen.src = producto.imagen;
+            //editarCaminoImagen.value = producto.imagen;
+            //vistaPreviaImagen.src = producto.imagen;
+            let imgs_s = Array();
+            producto.imagenes.forEach(img => {
+                imgs_s.push({"id":img.id, "path":img.camino_sm_imagen, "orden":img.orden});
+            });
+            cargarImagenes(imgs_s);
             editarMarca.value = producto.marca;
             editarPrecio.value = producto.precio;
             editarDescripcion.value = producto.descripcion;
@@ -311,41 +342,61 @@ function editar(id){
             editarMensaje.innerHTML = objResp.mensaje;
             abrir_modal("editarModal");
         }
-
     })
     .catch(err => {
         editarCabecera.style.backgroundColor = "lightcoral";
         editarMensaje.innerHTML = err;
         abrir_modal("editarModal");
+        console.log(err.response);
     });
+    //abrir_modal("editarModal");
 }
 
 function guardarCambios(){
     let formData = new FormData(formEditar);
+    //borramos las imagenes ingresadas por el input
+    formData.delete("imagenes[]");
+    //actualizamos el orden en funcion de la posicion de las tarjetas en containerEditar
+    actualizarOrden();
+    //agregammos las imagenes que estan dentro del drag and drop
+    let lis = obtenerListaImagenes(document.getElementById("containerEditar"));
+    // Nota objFiles esta declarado en el archivo dragDropv2.js
+    lis.forEach(elem =>{
+        formData.append("imagenesDD[]", objFiles[elem]);
+    });
+    let imgJson = JSON.stringify(imagenesBD);
+    formData.append("imagenesEditadas", imgJson);
+    let imgOrden = JSON.stringify(imagenesOrden);
+    formData.append("imagenesOrden", imgOrden);
     axios.post("/tio/login/querys/productos/guardar_cambios.php", formData)
     .then(respuesta => {
         let resp = respuesta.data;
+        console.log(resp);
         editarMensaje.innerHTML = (resp.mensaje == null) ? '' : resp.mensaje;
+        editarMensajeId.innerHTML = (resp.id == null) ? '' : resp.id;
         editarMensajeNombre.innerHTML = (resp.nombre == null) ? '' : resp.nombre;
         editarMensajeImagen.innerHTML = (resp.imagen == null) ? '' : resp.imagen;
-        if(resp.success){
-            formEditar.reset();
-            editarImagen.src = '';
-            llenarSubcategoriasE(); //actualizar la lista desplegable de subcategorias editar
-            actualizarTabla(); // actualizar la tabla
+        let exito = (resp.success == null) ? false : resp.success;
+        console.log("resp");
+        console.log(resp);
+        if(exito){
+            //resetear el objfiles
+            objFiles = {cont:0};
             editarCabecera.style.backgroundColor = "lightgreen";
             setTimeout(() => {
-                editarMensaje.innerHTML = "";
-                editarCabecera.style.backgroundColor = "white";
-                cerrar_modal('editarModal'); 
+                location.reload();
             }, 500);          
         }else{
             editarCabecera.style.backgroundColor = "lightcoral";
+            editarMensaje.innerHTML = resp;
         }
+        
     })
     .catch(err => {
         editarCabecera.style.backgroundColor = "lightcoral";
-        editarMensaje.innerHTML = err.respuesta;
+        editarMensaje.innerHTML = err;
+        console.log(err);
+        console.log("error en catch");
     });
 }
 
@@ -424,7 +475,6 @@ function aplicarFiltros(){
     }else{
         parametros.set("nombre", nombre);
     }
-
     window.location.search =  parametros.toString();
 }
 

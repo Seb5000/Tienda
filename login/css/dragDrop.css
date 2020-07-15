@@ -1,0 +1,107 @@
+/* DRAG AND DROP */
+.dragArea{
+    min-width: 200px;
+    min-height: 200px;
+    border: 2px dashed #ccc;
+    text-align: center;
+    font-size: 24px;
+}
+
+.archivoDragOver{
+    color: black;
+    border-color: black;
+    background-color: rgb(184, 255, 222);
+}
+
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.dragging{
+    opacity: 0.5;
+    border: 2px dashed !important;
+}
+
+#imagenes{
+    display: none;
+}
+
+#imagenesE{
+    display: none;
+}
+
+.contImg{
+    position: relative;
+    display: flex;
+    width: 150px;
+    height: 150px;
+    justify-content: center;
+    margin: 10px;
+    border: 1px solid black;
+}
+
+.contImg img{
+    width: 100%;
+    max-height: 100%;
+    /*object-fit: contain;*/
+    object-fit: cover;
+    /*user-drag: none; */
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.botonCerrar{
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    border-radius: 25px;
+    background-color: #f88d8d;
+    z-index: 10;
+    width: 10px;
+    height: 10px;
+    justify-content: center;
+    text-align: center;
+    border: 1px solid black;
+    opacity: 0;
+    transition: 0.2s;
+    overflow: hidden;
+}
+
+.botonNumeracion{
+    position: absolute;
+    bottom: -15px;
+    border-radius: 25px;
+    background-color: white;
+    justify-content: center;
+    border: 1px solid black;
+    padding: 5px 10px;
+}
+
+.contImg:hover>.botonCerrar{
+    width: 35px;
+    height: 35px;
+    opacity: 0.85;
+    font-size: 22px;
+    transition: 0.2s;
+}
+
+.contImg:hover>.botonCerrar:hover{
+    width: 45px;
+    height: 45px;
+    opacity: 1;
+    color: white;
+    font-size: 28px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.dragging.contImg:hover>.botonCerrar{
+    opacity: 0 !important;
+}
+
+/* END DRAG AND DROP */

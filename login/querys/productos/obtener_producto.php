@@ -17,7 +17,9 @@ $data = json_decode($json, true);
 
 if(isset($data['id'])){
     $producto->id = $data['id'];
-    $exito = $producto->obtenerProducto();
+    //$exito = $producto->obtenerProducto();
+    $prodArr = $producto->obtenerProductoArr($data['id']);
+    /*
     if($exito){
         $respuesta["producto"]["id"] = $producto->id;
         $respuesta["producto"]["nombre"] = $producto->nombre;
@@ -33,6 +35,8 @@ if(isset($data['id'])){
         $respuesta['exito']=false;
         $respuesta["mensaje"]=$producto->error;
     }
+    */
+    $respuesta["producto"] = $prodArr;
 }else{
     $respuesta['exito']=false;
     $respuesta['mensaje']="No se introdujo un id, se debe pasar este por post con el nombre de (id)";

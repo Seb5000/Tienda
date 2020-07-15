@@ -6,7 +6,7 @@
 	<title>Casa de Arte</title>
 	<link rel="stylesheet" type="text/css" href="css/estilos.css">
 	<link rel="stylesheet" type="text/css" href="css/indexProductos.css">
-	<link href="https://fonts.googleapis.com/css?family=Carter+One|Merienda+One&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@300;400;600;700;900&family=Merienda:wght@400;700&display=swap" rel="stylesheet">
 
 	<meta name="viewport" content="width=device-width, user-scalable=no">
 </head>
@@ -41,23 +41,7 @@
 		</div>
 	</header>
 	<main>
-		<section class="quienes" id="quienes">
-			<div class="titulo">
-				<h2>Quienes Somos</h2>
-			</div>
-			<div class="contenedor">
-				<div class="texto">
-					<p>
-						Curabitur vel risus eget tellus euismod eleifend eu at metus. Vivamus non eleifend felis, at tristique purus. Integer commodo dui non urna congue scelerisque. Phasellus suscipit vehicula metus, molestie porttitor odio porttitor nec. Aliquam vel mattis odio. Vivamus quis pretium elit, ac volutpat ante. Nam quis finibus mauris. In finibus feugiat tincidunt.
-					</p>
-				</div>
 
-				<div class="contenedor-imagen">
-					<img src="imagenes/personal.jpg">
-				</div>
-			</div>
-
-		</section>
 		<section class="productos" id="productos">
 			<div class="contenedor-productos">
 				<h2 id="titulo-productos">Nuestros Productos</h2>
@@ -91,6 +75,24 @@
 					}
 					?>
 				</ul>
+			</div>
+
+		</section>
+		
+		<section class="quienes" id="quienes">
+			<div class="titulo">
+				<h2>Quienes Somos</h2>
+			</div>
+			<div class="contenedor">
+				<div class="texto">
+					<p>
+						Curabitur vel risus eget tellus euismod eleifend eu at metus. Vivamus non eleifend felis, at tristique purus. Integer commodo dui non urna congue scelerisque. Phasellus suscipit vehicula metus, molestie porttitor odio porttitor nec. Aliquam vel mattis odio. Vivamus quis pretium elit, ac volutpat ante. Nam quis finibus mauris. In finibus feugiat tincidunt.
+					</p>
+				</div>
+
+				<div class="contenedor-imagen">
+					<img src="imagenes/personal.jpg">
+				</div>
 			</div>
 
 		</section>

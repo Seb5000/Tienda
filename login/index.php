@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(isset($_SESSION['usuario'])){
+    header("Location: categorias.php");
+    die();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +16,7 @@
 </head>
 <body>
     <div class="contenedor-principal">
-        <form action="">
+        <form action="compartido/login.inc.php" method="post">
             <div class="contenedor-titulo">
                 <h2>Login <br> Casa de Arte</h2>
             </div>
@@ -26,7 +33,7 @@
                     <span class="contenido-label">Contrase&ntilde;a</span>
                 </label>
             </div>
-            <button type="submit" class="boton">Ingresar</button>
+            <button type="submit" name="login-submit" class="boton">Ingresar</button>
             
         </form>
     </div>

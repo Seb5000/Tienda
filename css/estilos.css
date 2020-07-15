@@ -4,7 +4,7 @@
 	/*box-sizing: border-box;*/
 	/*font-family: 'Arimo', sans-serif;*/
 	scroll-behavior: smooth;
-	font-family: 'Merienda One', cursive;
+	font-family: 'Merienda', cursive;
 }
 
 header{
@@ -45,7 +45,6 @@ header{
 
 .menu .logo h2{
 	font-size: 1.5rem;
-	font-family: 'Carter One';
 	line-height: 100%;
 	width: 8rem;
 }

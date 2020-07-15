@@ -21,7 +21,7 @@ if($data['ids']){
 
 if($exito){
     foreach($arr_imgs as $img){
-        $nombreimg = pathinfo($caminoLogo, PATHINFO_FILENAME);
+        $nombreimg = pathinfo($img, PATHINFO_FILENAME);
         if($nombreimg != "defecto"){
             unlink($_SERVER['DOCUMENT_ROOT'].$img);
         }

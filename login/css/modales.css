@@ -1,0 +1,162 @@
+#covertor{
+    display: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    z-index: 11;
+}
+
+.contenedorModal{
+    position: absolute;
+    display: none;
+    
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 11;
+}
+
+.modal{
+    margin: 30px auto;
+    max-width: 800px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    overflow: hidden;
+    font-family: Gadugi;
+}
+
+.contenedor_vista_previa{
+    display: flex;
+    width: 200px;
+    height: 200px;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #eee;
+    margin: auto;
+}
+
+.contenedor_vista_previa img{
+    width: 100%;
+    max-height: 100%;
+    /*object-fit: contain;*/
+    object-fit: contain;
+}
+
+.modal form{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.cabeceraModal{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    border-bottom: 1px dashed black;
+    align-items: baseline;
+    position: relative;
+    transition: 0.3s;
+}
+
+.cabeceraModal h2{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 30px;
+}
+
+#mensaje_agregar, #mensaje_borrar, #mensaje_editar{
+    width: 60%;
+    margin-left: 20px;
+}
+
+.boton-cerrar{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    margin: 10px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 1px;
+    padding-left: 1px;
+    height: 30px;
+    width: 30px;
+    font-size: 25px;
+    border: 1px solid black;
+    opacity: 0.5;
+    line-height: 0;
+    border-radius: 30px;
+    background-color: #ff8f8f;
+    color: black;
+    outline: none;
+}
+
+.boton-cerrar:hover{
+    opacity: 1;
+}
+
+.cuerpoModal{
+    padding: 20px 30px;
+}
+
+.grupoInput{
+    margin-bottom: 15px;
+}
+
+.entradaForm, .etiquetaForm{
+    font-size: 20px;
+}
+
+.grupoInput .etiquetaForm{
+    margin-bottom: 5px;
+    margin-right: 10px;
+}
+
+.grupoInput .entradaForm{
+    display: block;
+    width: 100%;
+    padding: 6px 12px;
+}
+
+.entradaForm option{
+    font-size: 20px;
+    background-color: #fffcef;
+}
+
+.mensaje_form{
+    color: red;
+    margin-left: 10px;
+}
+
+.pieModal{
+    display: flex;
+    margin-bottom: 20px;
+    margin-top: auto;
+    justify-content: center;
+}
+
+.pieModal button{
+    margin: 0px 30px;
+    padding: 7px;
+    border-radius: 15px;
+    border: 1px solid black;
+    background-color: transparent;
+    font-size: 20px;
+}
+
+.pieModal button:hover{
+    background-color: black;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .modal{
+        margin-top: 20px;
+    }
+}

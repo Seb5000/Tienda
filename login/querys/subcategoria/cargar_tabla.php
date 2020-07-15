@@ -59,50 +59,52 @@ $arrSub = $subcategoria->obtenerProductos2($offset, $catidad_x_pagina, $nombre, 
         </select>
     </div>
 </div>
-<table id="tablaPrincipal">
-    <thead>
-        <tr>
-            <th>
-                <input type="checkbox" id="selecionarTodos">
-            </th>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Pertenece a<br>Categoria</th>
-            <th>Imagen</th>
-            <th>Descripcion</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-            foreach($arrSub as $sub):
-        ?>
-        <tr>
-            <td>
-                <input type="checkbox" name="opciones[]">
-            </td>
-            <td><?php echo $sub["id"] ?></td>
-            <td><?php echo $sub["nombre"] ?></td>
-            <td><?php echo $sub["nombreC"] ?></td>
-            <td>
-                <div class="contenedor_imagen">
-                    <img src="<?php echo $sub["imagen"] ?>" alt="">
-                </div>
-            </td>
-            <td>
-                <?php echo $sub["descripcion"] ?>
-            </td>
-            <td>
-                <button onclick="borrarId(this)">Borrar</button>
-                <button onclick="llenarFormEditar(<?php echo $sub['id'] ?>)">Editar</button>
-            </td>
-        </tr>
-        <?php 
-            endforeach;
-        ?>
-    </tbody>
-    
-</table>
+<div class="tabla">
+    <table id="tablaPrincipal">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="selecionarTodos">
+                </th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Pertenece a<br>Categoria</th>
+                <th>Imagen</th>
+                <th>Descripcion</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                foreach($arrSub as $sub):
+            ?>
+            <tr>
+                <td>
+                    <input type="checkbox" name="opciones[]">
+                </td>
+                <td><?php echo $sub["id"] ?></td>
+                <td><?php echo $sub["nombre"] ?></td>
+                <td><?php echo $sub["nombreC"] ?></td>
+                <td>
+                    <div class="contenedor_imagen">
+                        <img src="<?php echo $sub["imagen"] ?>" alt="">
+                    </div>
+                </td>
+                <td>
+                    <?php echo $sub["descripcion"] ?>
+                </td>
+                <td>
+                    <button onclick="borrarId(this)">Borrar</button>
+                    <button onclick="llenarFormEditar(<?php echo $sub['id'] ?>)">Editar</button>
+                </td>
+            </tr>
+            <?php 
+                endforeach;
+            ?>
+        </tbody>
+    </table>
+</div>
+
 <?php 
     if(count($arrSub)==0):
 ?>

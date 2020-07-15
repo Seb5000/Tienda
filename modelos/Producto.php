@@ -4,6 +4,7 @@ class Producto{
     private $conn;
 
     //Atributos Producto
+    public $antiguoId;
     public $id;
     public $id_categoria;
     public $nombre_categoria; // no existe en la base de datos se usara join
@@ -270,7 +271,7 @@ class Producto{
         return false;
     }
 
-    public function obtenerProductoArr($id){
+    public function obtenerProductoArr($id, $imagenesDefecto=false){
         $query = "SELECT
                     p.ID_PRODUCTO,
                     p.NOMBRE_PRODUCTO,
@@ -295,6 +296,7 @@ class Producto{
         $producto = array();
         if($num>0){
             $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+            $producto['id'] = $fila['ID_PRODUCTO'];
             $producto['nombre'] = $fila['NOMBRE_PRODUCTO'];
             $producto['id_categoria'] = $fila['ID_CATEGORIA'];
             $producto['nombre_categoria'] = $fila['NOMBRE_CATEGORIA'];
@@ -336,7 +338,7 @@ class Producto{
                         'orden'=>$fila['ORDEN_IMAGEN'],
                     );
                     $nombreimg = pathinfo($imagen['camino_imagen'], PATHINFO_FILENAME);
-                    if($nombreimg != "defecto"){
+                    if($nombreimg != "defecto" || $imagenesDefecto){
                         array_push($producto['imagenes'], $imagen);
                     }
                 }
@@ -345,9 +347,10 @@ class Producto{
         return $producto;
     }
 
-    public function guardarProducto(){
+    public function guardarCambios(){
         $query = "UPDATE PRODUCTO
                     SET
+                        ID_PRODUCTO = :id,
                         NOMBRE_PRODUCTO = :nombre,
                         ID_CATEGORIA = $this->id_categoria,
                         ID_SUBCATEGORIA = $this->id_subcategoria,
@@ -355,18 +358,20 @@ class Producto{
                         PRECIO_PRODUCTO = :precio,
                         DESCRIPCION_PRODUCTO = :descripcion
                     WHERE 
-                        ID_PRODUCTO = :id";
+                        ID_PRODUCTO = :antiguoId";
         $stmt = $this->conn->prepare($query);
 
         //Limpiar los datos
+        $this->antiguoId = htmlspecialchars(strip_tags($this->antiguoId));
         $this->id = htmlspecialchars(strip_tags($this->id));
         $this->nombre = htmlspecialchars(strip_tags($this->nombre));
         $this->marca = htmlspecialchars(strip_tags($this->marca));
         $this->precio = htmlspecialchars(strip_tags($this->precio));
-        $this->imagen = htmlspecialchars(strip_tags($this->imagen));
+        //$this->imagen = htmlspecialchars(strip_tags($this->imagen));
         $this->descripcion = htmlspecialchars(strip_tags($this->descripcion));
         
         //Relacionar los datos
+        $stmt->bindParam(':antiguoId', $this->antiguoId);
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':nombre', $this->nombre);
         $stmt->bindParam(':marca', $this->marca);
@@ -427,8 +432,7 @@ class Producto{
                     FROM PRODUCTO p
                         LEFT OUTER JOIN CATEGORIA c ON p.ID_CATEGORIA = c.ID_CATEGORIA
                         LEFT OUTER JOIN SUBCATEGORIA s ON p.ID_SUBCATEGORIA = s.ID_SUBCATEGORIA
-                        JOIN IMAGENES i ON p.ID_PRODUCTO = i.ID_PRODUCTO
-                    WHERE i.PRINCIPAL_IMAGEN = 1";
+                        LEFT OUTER JOIN IMAGENES i ON p.ID_PRODUCTO = i.ID_PRODUCTO";
         //CONDICION LIMITES DE LA QUERY
         $condicionLimites = "LIMIT $iniciar , $numFilas";
         //CONDICION DE CATEGORIA
@@ -444,7 +448,7 @@ class Producto{
 
         $query = $queryBase;
         $union = "";
-        $condiciones = "";
+        $condiciones = " WHERE (i.PRINCIPAL_IMAGEN = 1 OR i.PRINCIPAL_IMAGEN IS NULL)";
         $condicionAgregada = true;
 
         //SI EXISTE ALGUNCA CONDICION... ya existe con lo de las imagenes
@@ -456,7 +460,7 @@ class Producto{
 
         if($nombre != null){
             $union = ($condicionAgregada)? " AND " : "";
-            $condiciones = $condiciones.$condicionNombre;
+            $condiciones = $condiciones.$union.$condicionNombre;
             $condicionAgregada = true;
         }
 
@@ -484,6 +488,8 @@ class Producto{
         }
         $query = $query.$condiciones;
         $query = $query." ".$condicionLimites;
+        //$this->queryE = $query;
+        //echo $query;
         $stmt = $this->conn->prepare($query);
         try {
             $stmt->execute();
@@ -513,7 +519,8 @@ class Producto{
         }
         
         $queryNFilas = "SELECT COUNT(p.ID_PRODUCTO)
-                        FROM PRODUCTO p";
+                        FROM PRODUCTO p
+                        LEFT OUTER JOIN IMAGENES i ON p.ID_PRODUCTO = i.ID_PRODUCTO";
         $queryNFilas = $queryNFilas.$condiciones;
         $this->numero_filas = $this->conn->query($queryNFilas)->fetchColumn();
         

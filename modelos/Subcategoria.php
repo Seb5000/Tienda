@@ -272,6 +272,7 @@ class Subcategoria{
                     s.NOMBRE_SUBCATEGORIA,
                     c.NOMBRE_CATEGORIA,
                     s.IMAGEN_SUBCATEGORIA,
+                    s.IMAGEN_SM_SUBCATEGORIA,
                     s.DESCRIPCION_SUBCATEGORIA
                     FROM SUBCATEGORIA s
                         LEFT OUTER JOIN CATEGORIA c ON s.ID_CATEGORIA = c.ID_CATEGORIA
@@ -291,6 +292,7 @@ class Subcategoria{
                     s.NOMBRE_SUBCATEGORIA,
                     c.NOMBRE_CATEGORIA,
                     s.IMAGEN_SUBCATEGORIA,
+                    s.IMAGEN_SM_SUBCATEGORIA,
                     s.DESCRIPCION_SUBCATEGORIA
                     FROM SUBCATEGORIA s
                         LEFT OUTER JOIN CATEGORIA c ON s.ID_CATEGORIA = c.ID_CATEGORIA
@@ -309,6 +311,7 @@ class Subcategoria{
                     s.NOMBRE_SUBCATEGORIA,
                     c.NOMBRE_CATEGORIA,
                     s.IMAGEN_SUBCATEGORIA,
+                    s.IMAGEN_SM_SUBCATEGORIA,
                     s.DESCRIPCION_SUBCATEGORIA
                     FROM SUBCATEGORIA s
                         LEFT OUTER JOIN CATEGORIA c ON s.ID_CATEGORIA = c.ID_CATEGORIA
@@ -325,6 +328,7 @@ class Subcategoria{
                     s.NOMBRE_SUBCATEGORIA,
                     c.NOMBRE_CATEGORIA,
                     s.IMAGEN_SUBCATEGORIA,
+                    s.IMAGEN_SM_SUBCATEGORIA,
                     s.DESCRIPCION_SUBCATEGORIA
                     FROM SUBCATEGORIA s
                         LEFT OUTER JOIN CATEGORIA c ON s.ID_CATEGORIA = c.ID_CATEGORIA
@@ -345,6 +349,7 @@ class Subcategoria{
                     s.NOMBRE_SUBCATEGORIA,
                     c.NOMBRE_CATEGORIA,
                     s.IMAGEN_SUBCATEGORIA,
+                    s.IMAGEN_SM_SUBCATEGORIA,
                     s.DESCRIPCION_SUBCATEGORIA
                     FROM SUBCATEGORIA s
                         LEFT OUTER JOIN CATEGORIA c ON s.ID_CATEGORIA = c.ID_CATEGORIA
@@ -365,6 +370,7 @@ class Subcategoria{
                     s.NOMBRE_SUBCATEGORIA,
                     c.NOMBRE_CATEGORIA,
                     s.IMAGEN_SUBCATEGORIA,
+                    s.IMAGEN_SM_SUBCATEGORIA,
                     s.DESCRIPCION_SUBCATEGORIA
                     FROM SUBCATEGORIA s
                         LEFT OUTER JOIN CATEGORIA c ON s.ID_CATEGORIA = c.ID_CATEGORIA
@@ -383,6 +389,7 @@ class Subcategoria{
                     s.NOMBRE_SUBCATEGORIA,
                     c.NOMBRE_CATEGORIA,
                     s.IMAGEN_SUBCATEGORIA,
+                    s.IMAGEN_SM_SUBCATEGORIA,
                     s.DESCRIPCION_SUBCATEGORIA
                     FROM SUBCATEGORIA s
                         LEFT OUTER JOIN CATEGORIA c ON s.ID_CATEGORIA = c.ID_CATEGORIA
@@ -404,6 +411,7 @@ class Subcategoria{
                     s.NOMBRE_SUBCATEGORIA,
                     c.NOMBRE_CATEGORIA,
                     s.IMAGEN_SUBCATEGORIA,
+                    s.IMAGEN_SM_SUBCATEGORIA,
                     s.DESCRIPCION_SUBCATEGORIA
                     FROM SUBCATEGORIA s
                         LEFT OUTER JOIN CATEGORIA c ON s.ID_CATEGORIA = c.ID_CATEGORIA
@@ -429,6 +437,7 @@ class Subcategoria{
                     'idC' => $fila['ID_CATEGORIA'],
                     'nombreC' => $fila['NOMBRE_CATEGORIA'],
                     'imagen' => $fila['IMAGEN_SUBCATEGORIA'],
+                    'imagenS' => $fila['IMAGEN_SM_SUBCATEGORIA'],
                     'descripcion' => $fila['DESCRIPCION_SUBCATEGORIA'],
                 );
                 array_push($arr_sub, $subcategoria);

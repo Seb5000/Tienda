@@ -1,4 +1,17 @@
 <?php
+    session_start();
+    if(!isset($_SESSION['usuario'])){
+        header("Location: index.php?error=redireccion");
+        die();
+    }
+    if(isset($_GET['cantidad']) and isset($_GET['pagina'])){
+        $catidad_x_pagina = $_GET['cantidad'];
+        $pagina = $_GET['pagina'];
+    }else{
+        header('Location: subcategoria.php?pagina=1&cantidad=10');
+        die();
+    }
+
     include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/baseDatos.php';
     include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Categoria.php';
     $actual = 'subcategorias';
@@ -15,7 +28,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../css/subcategoria.css">
+    <link rel="stylesheet" href="css/layoutBase.css">
+    <link rel="stylesheet" href="css/barraLogin.css">
+    <link rel="stylesheet" href="css/barraLateral.css">
+    <link rel="stylesheet" href="css/tablaCRUD.css">
+    <link rel="stylesheet" href="css/modales.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     
 </head>
@@ -23,11 +40,11 @@
     <div class="contenedor-principal">
         <?php include('compartido/barra_lateral.php');?>
         <div class="contenedor">
-            <h2>Subcategorias</h2>
+            <?php include('compartido/barraLogin.php');?>
             <div id="contenedorTabla">
+                <h2>Subcategorias</h2>
                 <?php include('querys/subcategoria/cargar_tabla.php') ?>
             </div>
-            
         </div>
     </div>
 
@@ -161,7 +178,8 @@
     <!-- Modal borrar sub categoria FIN   -->
 
 </body>
-<script src="../js/subcategoria_modal.js"></script>
+<script type="text/javascript" src="js/burger.js"></script>
+<script src="js/modales.js"></script>
 <script src="/tio/login/js/axios_subcategoria.js"></script>
 <script src="/tio/login/js/subcategoria_checkbox.js" id="scriptCheckBox"></script>
 <script src="/tio/login/js/previsualizar_imagen.js"></script>

@@ -203,11 +203,7 @@ if(!$err){ //SI NO OCURRIO NINGUN ERROR EN LA VALIDACION
                 foreach($arrayAux as $subA){
                     if(isset($subA["camino"])){
                         move_uploaded_file($subA['tmp_name'], $subA["camino"]);
-                        if($subA["principal"]){
-                            redimensionar($subA["camino"], $subA["camino_s"], 320, 320, 70);
-                        }else{
-                            redimensionar($subA["camino"], $subA["camino_s"], 100, 100, 60);
-                        }
+                        redimensionar($subA["camino"], $subA["camino_s"], 320, 320, 70);
                         redimensionar($subA["camino"], $subA["camino"], 800, 600, 80);
                     }
                 }   

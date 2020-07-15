@@ -1,0 +1,89 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Catamaran', sans-serif;
+}
+header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.menu{
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+    /*
+    align-items: center;
+    background-color: coral;*/
+}
+.contenedor_principal{
+    display: flex;
+    justify-content: center;
+    max-width: 1200px;
+    /*border: 1px solid blue;
+    background-color: cornflowerblue;
+    */
+    margin: 10px;
+}
+.contenedor_imagenes{
+    display: grid;
+    max-width: 900px;
+    /*border: 1px solid black;*/
+    margin: 10px;
+}
+
+.imagen_grande{
+    width: 100%;
+}
+
+.imagen_grande img{
+    width: 100%;
+    height: auto;
+    border: 4px solid #fff;
+    box-shadow: 0px 5px 25px rgba(0,0,0, 0.5);
+}
+
+.contenedor_descripcion{
+    flex: 0 0 auto;
+    width: 260px;
+    /*border: 1px solid green;*/
+    margin: 10px;
+}
+
+.miniaturas{
+    margin-top: 30px;
+}
+
+.miniaturas li{
+    display: inline-block;
+    margin: 3px 3px;
+}
+
+.contenedor_miniatura{
+    display: flex;
+    width: 70px;
+    height: 70px;
+    justify-content: center;
+    /*border: 1px solid rgb(200, 200, 200);*/
+    border: 4px solid #fff;
+    box-shadow: 0px 5px 25px rgba(0,0,0, 0.5);
+    overflow: hidden;
+}
+
+.contenedor_miniatura a{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.contenedor_miniatura a img{
+    width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}

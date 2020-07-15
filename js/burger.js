@@ -1,7 +1,7 @@
 const navSlide = () =>{
 	const burger = document.querySelector('.burger');
 	const nav = document.querySelector('.nav-links');
-	const navl = document.querySelectorAll('.nav-links li')
+	const navl = document.querySelectorAll('.nav-links li');
 	burger.addEventListener('click', ()=>{
 
 		//cambiar de clase a los links
@@ -21,6 +21,6 @@ const navSlide = () =>{
 	});
 
 	
-}
+};
 
 navSlide();

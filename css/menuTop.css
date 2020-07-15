@@ -1,0 +1,144 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Catamaran', sans-serif;
+}
+
+.barra{
+    background-color: red;
+    height: 10px;
+}
+.contenedor_menu{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.contenedor_menu > .logo{
+    margin: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*background-color: seashell;*/
+}
+
+.contenedor_menu > .logo > img{
+    width: 80px;
+    height: 80px;
+}
+.contenedor_menu > .logo > h2{
+    font-size: 1.5rem;
+    line-height: 100%;
+    width: 8rem;
+    font-family: 'Merienda', cursive;
+}
+
+.contenedor_menu > .informacion{
+    margin: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*background-color: springgreen;*/
+    margin-left: auto;
+}
+
+.informacion > div{
+    position: relative;
+    display: flex;
+    font-size: 18px;
+}
+
+.texto_info{
+    margin-left: 10px;
+}
+
+.informacion > div > h3{
+    text-align: center;
+}
+.informacion > div:hover > .submenu{
+    display: block;
+}
+
+.caja_direccion{
+    display: flex;
+    flex-direction: column;
+}
+
+.caja_direccion > .texto_direccion{
+    line-height: 1.4;
+    text-align: end;
+}
+.submenu{
+    display: none;
+    position: absolute;
+    right: -10px;
+    top: 100%;
+    border: 1px solid lightgray;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    z-index: 20;
+}
+
+.submenu > ul{
+    list-style: none;
+}
+
+.submenu > ul > li{
+    width: 250px;
+    padding: 10px 5px;
+    line-height: 1;
+    display: flex;
+    font-size: 18px;
+    justify-content: space-between;
+}
+
+.submenu > ul > li:hover{
+    background-color: red;
+    color: white;
+}
+
+.submenu > ul > li:not(:last-of-type){
+    border-bottom: 1px solid lightgray;
+}
+
+#horarios{
+    margin-left: 50px;
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+    .contenedor_principal{
+        flex-direction: column;
+    }
+
+    .contenedor_menu > .logo{
+        margin: 0px;
+    }
+
+    .contenedor_menu > .logo > img{
+        width: 50px;
+        height: 50px;
+    }
+
+    .contenedor_menu > .informacion{
+        margin: 0px;
+    }
+    .contenedor_descripcion{
+        width: auto;
+    }
+
+    #horarios{
+        margin-left: 10px;
+    }
+
+
+    .texto_info{
+        display: none;
+    }
+
+    .informacion>div>h3{
+        font-size: 1.5rem;
+    }
+}

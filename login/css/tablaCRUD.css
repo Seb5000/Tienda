@@ -1,0 +1,174 @@
+.contenedor_imagen{
+    display: flex;
+    width: 150px;
+    height: 150px;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #eee;
+}
+
+.contenedor_imagen img{
+    width: 100%;
+    max-height: 100%;
+    /*object-fit: contain;*/
+    object-fit: contain;
+}
+
+.contenedor h2{
+    margin-left: 50px;
+}
+
+/* FIN CSS cuadro CRUD*/
+.tabla{
+    overflow: hidden;
+    overflow-x: auto;
+}
+
+#tablaPrincipal{
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#tablaPrincipal td, #tablaPrincipal th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#tablaPrincipal tr:nth-child(even){background-color: #f2f2f2;}
+
+#tablaPrincipal tr:hover {background-color: #ddd;}
+
+#tablaPrincipal th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: rgb(100, 149, 237);
+    color: white;
+}
+
+#cabeceraTabla{
+    display: flex;
+    align-items: center;
+    background-color: rgb(100, 149, 237);
+    color: white;
+}
+
+#cabeceraTabla h2{
+    margin: 20px;
+}
+
+.botonesTabla{
+    margin-left: auto;
+    margin-right: 30px;
+}
+
+#contenedorTabla{
+    /*
+    display: flex;
+    flex-direction: column;
+    */
+    margin: 30px;
+    justify-content: center;
+}
+
+.filtros{
+    background-color: cornflowerblue;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    color: white;
+}
+
+.filtros .grupo{
+    display: flex;
+    flex-direction: column;
+}
+
+.ocultar{
+    display: none;
+}
+
+.grupo select{
+    font-size: 16px;
+    padding: 10px;
+}
+
+#filtroNombre{
+    border: none;
+    outline: none;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+.sugerenciaInput{
+    display: inline-block;
+    position: relative;
+    padding: 10px;
+    background-color: white;
+}
+
+.listaSugerencias{
+    position: absolute;
+    top: 100%;
+    left: 0px;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    background: white;
+    list-style: none;
+    border-bottom: 1px solid rgba(122, 122, 122, 0.3);
+    border-left: 1px solid rgba(122, 122, 122, 0.3);
+    border-right: 1px solid rgba(122, 122, 122, 0.3);
+}
+
+.listaSugerencias li{
+    padding: 10px;
+    color: black;
+}
+
+.listaSugerencias li:hover{
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: rgba(219, 219, 219, 0.5);
+}
+
+.pieTabla{
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    display: flex;
+    padding: 20px;
+    background-color: cornflowerblue;
+}
+
+.paginacion{
+    margin-left: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pagina{
+    color: #23232e;
+    padding: 8px 16px;
+    text-decoration: none;
+    background-color: white;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 2px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pagina.activo{
+    color: white;
+    background-color: #56d674;
+    border: 1px solid rgb(63, 164, 87);
+}
+
+.pagina.desactivado{
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+}
+

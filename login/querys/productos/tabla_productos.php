@@ -23,8 +23,8 @@ $arrSub = $subcategoria->listaSubcategorias2();
 //$pagina = $pagina==-1 ? $numero_de_paginas : $pagina;
 $offset = ($pagina-1)*$catidad_x_pagina;
 
-echo "Cantidad ".$catidad_x_pagina.PHP_EOL;
-echo "Pagina ".$pagina.PHP_EOL;
+//echo "Cantidad ".$catidad_x_pagina.PHP_EOL;
+//echo "Pagina ".$pagina.PHP_EOL;
 
 //$arrProd = $producto->leer2();
 
@@ -34,8 +34,8 @@ $arrProd = $producto->obtenerProductos3($offset, $catidad_x_pagina, $nombre, $id
 //$total_productos = $producto->numeroFilas();
 $total_productos = $producto->numero_filas;
 $numero_de_paginas = ceil($total_productos/$catidad_x_pagina);
-echo "total_productos ".$total_productos.PHP_EOL;
-echo "#Paginas ".$numero_de_paginas.PHP_EOL;
+//echo "total_productos ".$total_productos.PHP_EOL;
+//echo "#Paginas ".$numero_de_paginas.PHP_EOL;
 ?>
 
 <div id="contenedorTabla">
@@ -98,53 +98,55 @@ echo "#Paginas ".$numero_de_paginas.PHP_EOL;
             <button id="botonBuscarNombre" onclick="aplicarFiltros()">Buscar</button>
         </div>
     </div>
-    <table id="tablaPrincipal">
-        <thead>
-            <tr>
-                <th>
-                    <input type="checkbox" id="selecionarTodos">
-                </th>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Categoria</th>
-                <th>SubCategoria</th>
-                <th>Imagen</th>
-                <th>Marca</th>
-                <th>Precio</th>
-                <th>Descripcion</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            foreach($arrProd as $prod){
-            ?>
-            <tr>
-                <td>
-                    <input type="checkbox" name="opciones[]">
-                </td>
-                <td><?php echo $prod['id']?></td>
-                <td><?php echo $prod['nombre']?></td>
-                <td><?php echo $prod['nombreC']?></td>
-                <td><?php echo $prod['nombreS']?></td>
-                <td>
-                    <div class="contenedor_imagen">
-                        <img src="<?php echo $prod['imagen_s']?>" alt="">
-                    </div>
-                </td>
-                <td><?php echo $prod['marca']?></td>
-                <td><?php echo $prod['precio']?></td>
-                <td><?php echo $prod['descripcion']?></td>
-                <td>
-                    <button onclick="confirmarBorrar(this)">Borrar</button>
-                    <button onclick="editar(<?php echo $prod['id']?>)">Editar</button>
-                </td>
-            </tr>
-            <?php
-            }
-            ?>
-        </tbody>
-    </table>
+    <div class="tabla">
+        <table id="tablaPrincipal">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="selecionarTodos">
+                    </th>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Categoria</th>
+                    <th>SubCategoria</th>
+                    <th>Imagen</th>
+                    <th>Marca</th>
+                    <th>Precio</th>
+                    <th>Descripcion</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach($arrProd as $prod){
+                ?>
+                <tr>
+                    <td>
+                        <input type="checkbox" name="opciones[]">
+                    </td>
+                    <td><?php echo $prod['id']?></td>
+                    <td><?php echo $prod['nombre']?></td>
+                    <td><?php echo $prod['nombreC']?></td>
+                    <td><?php echo $prod['nombreS']?></td>
+                    <td>
+                        <div class="contenedor_imagen">
+                            <img src="<?php echo $prod['imagen_s']?>" alt="">
+                        </div>
+                    </td>
+                    <td><?php echo $prod['marca']?></td>
+                    <td><?php echo $prod['precio']?></td>
+                    <td><?php echo $prod['descripcion']?></td>
+                    <td>
+                        <button onclick="confirmarBorrar(this)">Borrar</button>
+                        <button onclick="editar(<?php echo $prod['id']?>)">Editar</button>
+                    </td>
+                </tr>
+                <?php
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
     <?php 
         if(count($arrProd)==0):
     ?>
