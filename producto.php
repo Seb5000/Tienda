@@ -30,6 +30,23 @@ $arrProd = $Producto->obtenerProductoArr($id, true);
     </header>
 
     <main>
+        <section class="contenedor__breadcrumbs">
+            <ul class="breadcrumbs">
+                <li class="breadcrumbs__item">
+                    <a href="" class="breadcrumbs__link">Inicio</a>
+                </li>
+                <li class="breadcrumbs__item">
+                    <a href="buscar.php?categoria=<?=$arrProd['id_categoria']?>" class="breadcrumbs__link"><?=$arrProd['nombre_categoria']?></a>
+                </li>
+                <li class="breadcrumbs__item">
+                    <a href="buscar.php?categoria=<?=$arrProd['id_categoria']?>&subcategoria=<?=$arrProd['id_subcategoria']?>" class="breadcrumbs__link"><?=$arrProd['nombre_subcategoria']?></a>
+                </li>
+                <li class="breadcrumbs__item">
+                    <a class="breadcrumbs__link breadcrumbs__link--active"><?=$arrProd['nombre']?></a>
+                </li>
+                
+            </ul>
+        </section>
         <div class="contenedor_principal">
             <div class="contenedor_imagenes">
                 <div class="imagen_grande">

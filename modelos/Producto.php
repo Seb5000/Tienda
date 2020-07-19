@@ -271,6 +271,33 @@ class Producto{
         return false;
     }
 
+    public function contarIdsSubcategorias($ids){
+        if(is_array($ids)){
+            $ids = implode(",", $ids);
+        }
+        $ids = htmlspecialchars(strip_tags($ids));
+        $arr_sub = array();
+        if($ids==''){
+            return $arr_sub;
+        }
+        $query = "SELECT ID_SUBCATEGORIA, COUNT(ID_SUBCATEGORIA) 
+                    FROM producto 
+                    WHERE ID_PRODUCTO in (".$ids.") 
+                    GROUP BY ID_SUBCATEGORIA";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $num = $stmt->rowCount();
+        if($num>0){
+            while($fila = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $sub = array();
+                $sub["id"] = $fila["ID_SUBCATEGORIA"];
+                $sub["veces"] = $fila["COUNT(ID_SUBCATEGORIA)"];
+                array_push($arr_sub, $sub);
+            }
+        }
+        return $arr_sub;
+    }
+
     public function obtenerProductoArr($id, $imagenesDefecto=false){
         $query = "SELECT
                     p.ID_PRODUCTO,

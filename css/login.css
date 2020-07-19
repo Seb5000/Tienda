@@ -16,10 +16,12 @@ body{
     align-items: center;
     margin: auto;
     margin-top: 100px;
-    background-color: #ff4d4d;
+    background-color: white;
     width: 350px;
     height: 500px;
     border-radius: 25px;
+    border: 1px solid;
+    box-shadow: 0px 9px 27px -6px rgba(206, 0, 0, 0.75);
 }
 
 form{
@@ -40,13 +42,19 @@ form{
     font-size: 25px;
     text-align: center;
 }
+
+.mensaje-texto{
+    color: red;
+}
 .contenedor-campo{
     width: 80%;
     height: 80px;
     position: relative;
-    background-color: rgba(253, 165, 165, 0.4);
+    /*background-color: rgba(253, 165, 165, 0.4);*/
     overflow: hidden;
     border-radius: 10px;
+    border: 1px solid black;
+    box-shadow: 0px 2px 13px -6px rgba(206, 0, 0, 0.75);
 }
 
 .contenedor-campo input{
@@ -83,7 +91,7 @@ form{
 }
 
 .contenido-label{
-    color: white;
+    color: black;
     position: absolute;
     bottom: 5px;
     left: 5px;
@@ -109,11 +117,16 @@ form{
     padding: 15px;
     border-radius: 15px;
     border: 1px solid black;
-    background-color: rgb(253, 165, 165);
+    background-color: rgb(255, 235, 235);
     margin-bottom: 20px;
     margin-right: 10px;
     margin-top: 20px;
     cursor: pointer;
+    box-shadow: 0px 2px 13px -6px rgba(206, 0, 0, 0.75);
+}
+
+.boton:hover{
+    background-color: rgb(255, 73, 73);
 }
 
 @media (max-width: 600px) {

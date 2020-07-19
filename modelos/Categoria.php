@@ -8,8 +8,9 @@ class Categoria{
     public $nombre;
     public $imagen;
     public $imagenSM;
-    public $logo;
+    //public $logo;
     public $descripcion;
+    public $orden;
 
     private $error = false;
     //El constructor de la clase
@@ -43,19 +44,16 @@ class Categoria{
                         NOMBRE_CATEGORIA = :nombre,
                         IMAGEN_CATEGORIA = :imagen,
                         IMAGEN_SM_CATEGORIA = :imagenSM,
-                        LOGO_CATEGORIA = :logo,
                         DESCRIPCION_CATEGORIA = :descripcion";
         
         $stmt = $this->conn->prepare($query);
         $this->nombre = htmlspecialchars(strip_tags($this->nombre));
         $this->imagen = htmlspecialchars(strip_tags($this->imagen));
         $this->imagenSM = htmlspecialchars(strip_tags($this->imagenSM));
-        $this->logo = htmlspecialchars(strip_tags($this->logo));
         $this->descripcion = htmlspecialchars(strip_tags($this->descripcion));
         $stmt->bindParam(':nombre', $this->nombre);
         $stmt->bindParam(':imagen', $this->imagen);
         $stmt->bindParam(':imagenSM', $this->imagenSM);
-        $stmt->bindValue(':logo', $this->logo);
         $stmt->bindParam(':descripcion', $this->descripcion);
         try{
             $stmt->execute();
@@ -84,7 +82,6 @@ class Categoria{
             $this->nombre = $fila['NOMBRE_CATEGORIA'];
             $this->imagen = $fila['IMAGEN_CATEGORIA'];
             $this->imagenSM = $fila['IMAGEN_SM_CATEGORIA'];
-            $this->logo = $fila['LOGO_CATEGORIA'];
             $this->descripcion = $fila['DESCRIPCION_CATEGORIA'];
             return true;
         }else{
@@ -99,7 +96,6 @@ class Categoria{
                         NOMBRE_CATEGORIA = :nombre,
                         IMAGEN_CATEGORIA = :imagen,
                         IMAGEN_SM_CATEGORIA = :imagenSM,
-                        LOGO_CATEGORIA = :logo,
                         DESCRIPCION_CATEGORIA = :descripcion
                     WHERE 
                         ID_CATEGORIA = :id";
@@ -109,14 +105,12 @@ class Categoria{
         $this->nombre = htmlspecialchars(strip_tags($this->nombre));
         $this->imagen = htmlspecialchars(strip_tags($this->imagen));
         $this->imagenSM = htmlspecialchars(strip_tags($this->imagenSM));
-        $this->logo = htmlspecialchars(strip_tags($this->logo));
         $this->descripcion = htmlspecialchars(strip_tags($this->descripcion));
         //Relacionar los datos
         $stmt->bindParam(':id', $this->id);
         $stmt->bindParam(':nombre', $this->nombre);
         $stmt->bindParam(':imagen', $this->imagen);
         $stmt->bindParam(':imagenSM', $this->imagenSM);
-        $stmt->bindParam(':logo', $this->logo);
         $stmt->bindParam(':descripcion', $this->descripcion);
         
         try{
@@ -133,7 +127,7 @@ class Categoria{
 
     public function seleccionarImagenes($ids){
         $ids = htmlspecialchars(strip_tags($ids));
-        $query = 'SELECT IMAGEN_CATEGORIA, IMAGEN_SM_CATEGORIA, LOGO_CATEGORIA FROM CATEGORIA WHERE ID_CATEGORIA in ('.$ids.')';
+        $query = 'SELECT IMAGEN_CATEGORIA, IMAGEN_SM_CATEGORIA FROM CATEGORIA WHERE ID_CATEGORIA in ('.$ids.')';
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $num = $stmt->rowCount();
@@ -142,7 +136,6 @@ class Categoria{
             while($fila = $stmt->fetch(PDO::FETCH_ASSOC)){
                 array_push($arr_imgs, $fila['IMAGEN_CATEGORIA']);
                 array_push($arr_imgs, $fila['IMAGEN_SM_CATEGORIA']);
-                array_push($arr_imgs, $fila['LOGO_CATEGORIA']);
             }
         }
         return $arr_imgs;
@@ -167,7 +160,7 @@ class Categoria{
         return false;
     }
 
-    public function getCategorias($inicio, $numFilas){
+    public function getCategorias($inicio, $numFilas){ //SE USA *******************************
         $query = 'SELECT * FROM CATEGORIA LIMIT :inicio , :numFilas';
         $inicio = htmlspecialchars(strip_tags($inicio));
         $numFilas = htmlspecialchars(strip_tags($numFilas));
@@ -184,7 +177,6 @@ class Categoria{
                     'nombre' => $fila['NOMBRE_CATEGORIA'],
                     'imagen' => $fila['IMAGEN_CATEGORIA'],
                     'imagenS' => $fila['IMAGEN_SM_CATEGORIA'],
-                    'logo' => $fila['LOGO_CATEGORIA'],
                     'descripcion' => $fila['DESCRIPCION_CATEGORIA']
                 );
                 array_push($arr_cat, $categoria);
@@ -287,7 +279,7 @@ class Categoria{
     public function existeId($idQuery){
         if(!is_numeric($idQuery)) return false; //SI NO ES NUMERICO DEVUELVE FALSO
 
-        $query = 'SELECT ID_CATEGORIA FROM CATEGORIA WHERE ID_CATEGORIA = :id';
+        $query = 'SELECT * FROM CATEGORIA WHERE ID_CATEGORIA = :id';
 
         $stmt = $this->conn->prepare($query);
 
@@ -300,6 +292,13 @@ class Categoria{
         $num = $stmt->rowCount();
 
         if($num>0){
+            $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->id = $fila["ID_CATEGORIA"];
+            $this->nombre = $fila["NOMBRE_CATEGORIA"];
+            $this->imagen = $fila["IMAGEN_CATEGORIA"];
+            $this->imagenSM = $fila["IMAGEN_SM_CATEGORIA"];
+            $this->descripcion = $fila["DESCRIPCION_CATEGORIA"];
+            $this->orden = $fila["ORDEN_CATEGORIA"];
             return true;
         }
 

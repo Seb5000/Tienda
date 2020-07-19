@@ -1,5 +1,6 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/baseDatos.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Subcategoria.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Producto.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Imagen.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/redim2.php';
@@ -8,6 +9,7 @@ $bd = new DataBase();
 
 $conn = $bd->conectar();
 
+$ClaseSubcategoria = new Subcategoria($conn);
 $producto = new Producto($conn);
 $cImagen = new Imagen($conn);
 
@@ -155,6 +157,7 @@ $producto->descripcion = $descripcion;
 //print_r($producto);
 
 if(!$err){ //SI NO HAY NINGUN ERROR .... EJECUTAR LA CONSULTA
+    $arrProdAntiguo = $producto->obtenerProductoArr($antiguoId);
     $exito = $producto->guardarCambios();
     if($exito){ //SI LA QUERY FUE EXITOSA Y SE CARGO UNA IMAGEN
         //Borrar la imagen por defecto si es que existe y se subieron nuevas imagenes
@@ -198,6 +201,14 @@ if(!$err){ //SI NO HAY NINGUN ERROR .... EJECUTAR LA CONSULTA
                     redimensionar($imagenSub["camino_completo"], $imagenSub["camino_completo"], 800, 600, 80);
                 }
             }  
+        }
+
+        //MODIFICAR LA CANTIDAD DE PRODUCTOS POR SUBCATEGORIA
+        $antiguoIdSubcategoria = $arrProdAntiguo["id_subcategoria"];
+        $nuevoIdSubcategoria = $subcategoria;
+        if($antiguoIdSubcategoria != $nuevoIdSubcategoria){
+            $ClaseSubcategoria->modificarCantidadProductos($antiguoIdSubcategoria, -1);
+            $ClaseSubcategoria->modificarCantidadProductos($nuevoIdSubcategoria, 1);
         }
 
         //VERIFICAR SI EXISTE 1 O MAS IMAGENES PARA EL PRODUCTO

@@ -69,13 +69,14 @@ function agregarPorAxios(){
         if(resp.error){
             cabecera.style.backgroundColor = "lightcoral";
         }else{
-            formAgregar.reset();
-            actualizar_tabla();
+            //formAgregar.reset();
+            //actualizar_tabla();
             cabecera.style.backgroundColor = "lightgreen";
             setTimeout(() => {
-                mensaje_principal.style.display = "none";
-                cabecera.style.backgroundColor = "white";
-            }, 1000);
+                //mensaje_principal.innerHTML = "";
+                //cabecera.style.backgroundColor = "white";
+                location.reload();
+            }, 500);
             console.log("success ajax function");
         }
     });
@@ -204,7 +205,7 @@ function enviarFormEditar(){
             editarCabecera.style.backgroundColor = "lightgreen";
             setTimeout(() => {
                 location.reload();
-            }, 1000);
+            }, 500);
         }else{
             editarCabecera.style.backgroundColor = "lightcoral";
         }
@@ -243,7 +244,11 @@ function ajustarCategoria(idCat){
     let parametros = new URLSearchParams(window.location.search.substring(1));
     let valorNombre = document.getElementById("filtroNombre").value;
     parametros.set("categoria", idCat);
-    parametros.set("nombre", valorNombre);
+    if(valorNombre!=""){
+        parametros.set("nombre", valorNombre);
+    }else{
+        parametros.delete("nombre");
+    }
     console.log("cambio");
     window.location.search =  parametros.toString();
 }
@@ -310,3 +315,9 @@ document.addEventListener("click", function(event){
     listaSugerencias.classList.add("ocultar");
     console.log("se oculta");
 });
+
+function cambiarPagina(pagina){
+    let parametros = new URLSearchParams(window.location.search.substring(1));
+    parametros.set("pagina", pagina);
+    window.location.search =  parametros.toString();
+}

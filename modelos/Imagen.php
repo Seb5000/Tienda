@@ -77,7 +77,7 @@ class Imagen{
         if($ids==''){
             return $arr_imgs;
         }
-        $query = "SELECT CAMINO_IMAGEN, CAMINO_SM_IMAGEN FROM IMAGENES WHERE ID_IMAGEN in (".$ids.")";
+        $query = "SELECT CAMINO_IMAGEN, CAMINO_SM_IMAGEN FROM IMAGENES WHERE ID_PRODUCTO in (".$ids.")";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $num = $stmt->rowCount();

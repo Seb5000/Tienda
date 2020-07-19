@@ -14,3 +14,163 @@ header{
     flex-direction: column;
     width: 1000px;
 }
+
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor_principal{
+    max-width: 1000px;
+    width: 100%;
+    padding: 0px 25px;
+}
+
+.titulo_buscar{
+    margin-bottom: 20px;
+}
+
+/* BREADCRUMBS */
+.breadcrumbs{
+    margin: 15px 0px;
+}
+.breadcrumbs__item{
+    display: inline-block;
+}
+
+.breadcrumbs__item:not(:last-of-type)::after{
+    content: '>';
+    margin: 0 5px;
+    color: #adadad;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.breadcrumbs__link{
+    text-decoration: none;
+    color: #adadad;
+    font-size: 18px;
+}
+
+.breadcrumbs__link:hover{
+    text-decoration: underline;
+}
+
+.breadcrumbs__link--active{
+    color: #009578;
+}
+
+/* BREADCRUMBS FIN */
+
+/*CUADRO QUE MUESTRA PRODUCTOS */
+.cuadrilla_Productos {
+    /*background-color: forestgreen;*/
+    list-style: none;
+    margin: 0px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(200px, auto));
+    grid-gap: 2rem;
+}
+
+.cuadrilla_Productos > li > a{
+    text-decoration: none;
+    color: black;
+}
+/*
+.caja_Productos > ul > li {
+}
+*/
+.producto {
+    border: 1px solid #bfbfbf;
+    border-radius: .5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.producto_foto {
+    display: flex;
+    width: auto;
+    height: 85%;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #eee;
+}
+
+.producto_foto img {
+    /*max-width: 200px;*/
+    width: 100%;
+    max-height: 100%;
+    /*object-fit: contain;*/
+    object-fit: cover;
+}
+
+.producto_nombre {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    font-size: 18px;
+    text-align: center;
+    height: auto;
+}
+
+.producto_numero {
+    display: none;
+}
+
+.producto_descripcion {
+    display: none;
+}
+
+.producto_precio {
+    display: none;
+}
+/* FIN DEL CUADRO QUE MUESTRA PRODUCTOS */
+
+/* PARA LA PAGINACION */
+.paginacion{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    border-radius: 50px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.pagina{
+    color: #23232e;
+    padding: 3px 15px;
+    text-decoration: none;
+    background-color: white;
+    transition: background-color .3s;
+    margin: 0 2px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.pagina:hover{
+    background-color: gainsboro;
+}
+
+.pagina:hover.activo{
+    background-color: gainsboro;
+    color: black;
+}
+
+.pagina.activo{
+    color: white;
+    background-color: #f33535;
+}
+
+.pagina.desactivado{
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+    display: none;
+}
+/* FIN DE LA PAGINACION */

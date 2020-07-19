@@ -81,7 +81,9 @@ if(isset($_POST["nombre"]) && isset($_POST["categoria"])){
     }
 }else{
     $respuesta["error"] = true;
-    $respuesta["nombre"] .= "No se ingreso un nombre";
+    $respuesta["nombre"] .= (isset($_POST["nombre"])?"":"No se ingreso un nombre");
+    $respuesta["categoria"] .= (isset($_POST["categoria"])?"":"Se necesita una categoria");
+    $respuesta["mensaje"] .= (isset($_POST["categoria"])?"":"Debe crear primero una categoria");
 }
 echo json_encode($respuesta);
 ?>

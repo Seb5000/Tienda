@@ -3,9 +3,9 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/baseDatos.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Categoria.php';
 $bd = new DataBase();
 $conn = $bd->conectar();
-$Categoria = new Categoria($conn);
+$CategoriaMenu = new Categoria($conn);
 
-$arrCat = $Categoria->listaCategorias2();
+$arrCat = $CategoriaMenu->listaCategorias2();
 
 ?>
 <div class="menuCategorias">
@@ -23,7 +23,7 @@ $arrCat = $Categoria->listaCategorias2();
             <ul id="listaCategorias">
                 <?php
                 foreach($arrCat as $cat):
-                    echo "<li><a href='' target='".$cat["id"]."'>".$cat["nombre"]."</a></li>";
+                    echo "<li><a href='/tio/buscar.php?categoria=".$cat["id"]."' data-id='".$cat["id"]."'>".$cat["nombre"]."</a></li>";
                 endforeach
                 //<li><a href='' target='1'>nombre cat 1</a></li>
                 ?>
@@ -34,7 +34,7 @@ $arrCat = $Categoria->listaCategorias2();
             foreach($arrCat as $cat):
                 echo "<ul class='listaSubcategorias' categoria=".$cat['id'].">";
                 for($i=0; $i<count($cat['subcategorias']); $i++){
-                    echo "<li><a href='' >".$cat["subcategorias"][$i]['nombre']."</a></li>";
+                    echo "<li><a href='/tio/buscar.php?categoria=".$cat['id']."&subcategoria=".$cat["subcategorias"][$i]['id']."' >".$cat["subcategorias"][$i]['nombre']."</a></li>";
                 }
                 echo "</ul>";
             endforeach

@@ -33,7 +33,8 @@ const listarSubcategorias = ()=>{
     function mostrarSub(){
         for(const subcategoria of listarSubcategorias.children){
             let varCat = subcategoria.getAttribute("categoria");
-            if(varCat == this.target){
+            let linkIdCategoria = this.getAttribute("data-id");
+            if(varCat == linkIdCategoria){
                 subcategoria.classList.add("activo");
             }else{
                 subcategoria.classList.remove("activo");

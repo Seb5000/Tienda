@@ -10,8 +10,8 @@ $categoria = new Categoria($conn);
 $err = false;
 $respuesta = array();
 
-if(!isset($_POST["id"]) or !isset($_POST["nombre"]) or !isset($_POST["caminoImagen"])
- or !isset($_POST["caminoLogo"]) or !isset($_POST["descripcion"])){
+if(!isset($_POST["id"]) or !isset($_POST["nombre"]) or 
+!isset($_POST["caminoImagen"]) or !isset($_POST["descripcion"])){
     $respuesta["mensaje"]="No se introdujeron bien los datos id, nombre, 
     caminoImagen, caminoLogo, descripcion.";
     echo json_encode($respuesta);
@@ -23,7 +23,6 @@ $id = $_POST["id"];
 $nombre = $_POST["nombre"];
 $caminoImagen = $_POST["caminoImagen"];
 $caminoImagenS = $_POST["caminoImagenS"];
-$caminoLogo = $_POST["caminoLogo"];
 $descripcion = $_POST["descripcion"];
 
 $categoria->id = $id;
@@ -68,32 +67,6 @@ if(is_uploaded_file($_FILES['imagen']['tmp_name'])){
 
 $categoria->descripcion = $descripcion;
 
-// VERIFICAR SI EL LOGO FUE CARGADO
-$cargoLogo = false;
-$logoPorDefecto = false;
-if(is_uploaded_file($_FILES['logo']['tmp_name'])){
-    $cargoLogo = true;
-    // VERIFICAR EL FORMATO DE LA IMAGEN
-    $logo_cargado = $_FILES['logo']["name"];
-    $extension_logo = strtolower(pathinfo($logo_cargado, PATHINFO_EXTENSION));
-    $carpeta_logo = pathinfo($caminoLogo, PATHINFO_DIRNAME);
-    $nombre_logo = pathinfo($caminoLogo, PATHINFO_FILENAME);
-    if(in_array($extension_logo, $extensiones_permitidas)){
-        if($nombre_logo == "defecto"){
-            $logoPorDefecto = true;
-            $nombre_logo = uniqid("L", true);
-            $carpeta_logo = "/tio/imagenes/logos";
-        }
-        $categoria->logo = $carpeta_logo."/".$nombre_logo.".".$extension_logo;
-        $path_completo_logo = $_SERVER['DOCUMENT_ROOT'].$categoria->logo;
-    }else{
-        $respuesta['imagen'] = "El formato del archivo no esta permitido";
-        $err = true;
-    } 
-}else{
-    $categoria->logo = $caminoLogo;
-}
-
 //SI NO HAY NINGUN ERROR .... EJECUTAR LA CONSULTA
 if(!$err){ 
     $exito = $categoria->guardarCategoria();
@@ -105,13 +78,6 @@ if(!$err){
         move_uploaded_file($_FILES['imagen']['tmp_name'], $path_completo_imagen);  
         redimensionar($path_completo_imagen, $path_completo_imagenS, 320, 320, 70);
         redimensionar($path_completo_imagen, $path_completo_imagen, 800, 600, 80);
-    }
-    if($exito and $cargoLogo){ //SI LA QUERY FUE EXITOSA Y SE CARGO UNA IMAGEN
-        if($logoPorDefecto == false){
-            unlink($_SERVER['DOCUMENT_ROOT'].$caminoLogo);
-        }
-        move_uploaded_file($_FILES['logo']['tmp_name'], $path_completo_logo);
-        redimensionar($path_completo_logo, $path_completo_logo, 320, 320, 80);
     }
     if($exito){
         $respuesta["mensaje"] = "Se actualizo el registro";

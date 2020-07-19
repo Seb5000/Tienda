@@ -6,6 +6,7 @@
 	<title>Casa de Arte</title>
 	<link rel="stylesheet" type="text/css" href="css/estilos.css">
 	<link rel="stylesheet" type="text/css" href="css/indexProductos.css">
+	<link rel="stylesheet" href="css/menuCategorias2.css">
 	<link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@300;400;600;700;900&family=Merienda:wght@400;700&display=swap" rel="stylesheet">
 
 	<meta name="viewport" content="width=device-width, user-scalable=no">
@@ -45,18 +46,19 @@
 		<section class="productos" id="productos">
 			<div class="contenedor-productos">
 				<h2 id="titulo-productos">Nuestros Productos</h2>
+				<?php include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/menuCategorias2.php'; ?>
 				<ul class="lista-productos">
 					<?php
 					$sql = "SELECT * FROM `CATEGORIA`";
-					$result = $conn->query($sql);
+					$result = $conn2->query($sql);
 					if ($result->num_rows > 0) {
 						while ($row = $result->fetch_assoc()) { ?>
 							<li>
 								<div class="container">
 									<div class="cardWrap">
-										<a href="/tio/productos/index.php?categoria=<?php echo $row["ID_CATEGORIA"]; ?>">
+										<a href="/tio/buscar.php?categoria=<?php echo $row["ID_CATEGORIA"]; ?>">
 											<div class="card">
-												<div class="cardBg" style="background-image: url(<?php echo $row["IMAGEN_CATEGORIA"]; ?>);"></div>
+												<div class="cardBg" style="background-image: url(<?php echo $row["IMAGEN_SM_CATEGORIA"]; ?>);"></div>
 												<div class="cardInfo">
 													<h3 class="cardTitle">
 														<?php echo $row["NOMBRE_CATEGORIA"]; ?>
@@ -123,13 +125,17 @@
 				<a href=""><img src="imagenes/carta.png"></a>
 
 			</div>
+			
 		</div>
+		<h5><a href="login/index.php" style="margin: 10px 20px;">Login</a></h5>
+		
 	</footer>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/burger.js"></script>
 	<script type="text/javascript" src="js/menu.js"></script>
 	<script type="text/javascript" src="js/indexProductos.js"></script>
+	<script src="js/menuCategorias2.js"></script>
 </body>
 
 </html>

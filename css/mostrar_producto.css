@@ -18,10 +18,51 @@ header{
 main{
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
     /*
     align-items: center;
     background-color: coral;*/
 }
+
+/*INICIO BREADCRUMBS*/
+.contenedor__breadcrumbs{
+    max-width: 1000px;
+    width: 100%;
+    padding: 0px 25px;
+}
+
+.breadcrumbs{
+    margin: 15px 0px;
+}
+
+.breadcrumbs__item{
+    display: inline-block;
+}
+
+.breadcrumbs__item:not(:last-of-type)::after{
+    content: '>';
+    margin: 0 5px;
+    color: #adadad;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.breadcrumbs__link{
+    text-decoration: none;
+    color: #adadad;
+    font-size: 18px;
+}
+
+.breadcrumbs__link:hover{
+    text-decoration: underline;
+}
+
+.breadcrumbs__link--active{
+    color: black;
+}
+/*FIN BREADCRUMBS*/
+
 .contenedor_principal{
     display: flex;
     justify-content: center;

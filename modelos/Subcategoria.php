@@ -3,12 +3,18 @@ class Subcategoria{
     // variables base de datos
     private $conn;
 
-    //Atributos Producto
+    //Atributos Subcategoria
     public $id;
     public $id_categoria;
     public $nombre;
+    public $nombre_categoria;
     public $imagen;
+    public $imagenSM;
     public $descripcion;
+    public $orden;
+
+    public $numero_filas;
+    //public $queryE;
 
     //El constructor de la clase
     public function __construct($bd){
@@ -58,7 +64,7 @@ class Subcategoria{
 
         //Crear un array respuesta
         $arr_Subcat = array();
-        //Si existe algun producto
+        //Si existe alguna subcategoria
         if($num>0){
             while($fila = $stmt->fetch(PDO::FETCH_ASSOC)){
                 $item = array(
@@ -125,7 +131,7 @@ class Subcategoria{
 
         //Crear un array respuesta
         $arr_Subcat = array();
-        //Si existe algun producto
+        //Si existe alguna subcategoria
         if($num>0){
             while($fila = $stmt->fetch(PDO::FETCH_ASSOC)){
                 $item = array(
@@ -183,9 +189,20 @@ class Subcategoria{
     //Existe EL ID ($idQuery) de la subcategoria en la categoria dada ($idCategoria)
     public function existeIdEnCategoria($idQuery, $idCategoria){
         if(!is_numeric($idQuery)) return false; //SI NO ES NUMERICO DEVUELVE FALSO
+        if(!is_numeric($idCategoria)) return false; //SI NO ES NUMERICO DEVUELVE FALSO
 
-        $query = 'SELECT ID_SUBCATEGORIA FROM SUBCATEGORIA 
-                    WHERE ID_SUBCATEGORIA = :idS AND ID_CATEGORIA = :idC';
+        $query = 'SELECT
+                    s.ID_SUBCATEGORIA,
+                    s.ID_CATEGORIA,
+                    s.NOMBRE_SUBCATEGORIA,
+                    c.NOMBRE_CATEGORIA,
+                    s.IMAGEN_SUBCATEGORIA,
+                    s.IMAGEN_SM_SUBCATEGORIA,
+                    s.DESCRIPCION_SUBCATEGORIA,
+                    s.ORDEN_SUBCATEGORIA
+                    FROM SUBCATEGORIA s
+                        LEFT OUTER JOIN CATEGORIA c ON s.ID_CATEGORIA = c.ID_CATEGORIA
+                    WHERE s.ID_SUBCATEGORIA = :idS AND s.ID_CATEGORIA = :idC';
 
         $stmt = $this->conn->prepare($query);
 
@@ -200,6 +217,15 @@ class Subcategoria{
         $num = $stmt->rowCount();
 
         if($num>0){
+            $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->id = $fila["ID_SUBCATEGORIA"];
+            $this->id_categoria = $fila["ID_CATEGORIA"];
+            $this->nombre = $fila["NOMBRE_SUBCATEGORIA"];
+            $this->nombre_categoria = $fila["NOMBRE_CATEGORIA"];
+            $this->imagen = $fila["IMAGEN_SUBCATEGORIA"];
+            $this->imagenSM = $fila["IMAGEN_SM_SUBCATEGORIA"];
+            $this->descripcion = $fila["DESCRIPCION_SUBCATEGORIA"];
+            $this->orden = $fila["ORDEN_SUBCATEGORIA"];
             return true;
         }
         return false;
@@ -444,6 +470,142 @@ class Subcategoria{
             }
         }
         return $arr_sub;
+    }
+
+    public function obtenerSubcategorias3($iniciar, $numFilas, $nombre, $idCategoria){
+        //PARAMETROS QUE SON LIMPIADOS
+        $iniciar = htmlspecialchars(strip_tags($iniciar));
+        $numFilas = htmlspecialchars(strip_tags($numFilas));
+        $regexp = "";
+        if($nombre != null){
+            $nombre = htmlspecialchars(strip_tags($nombre));
+            $arr_pal = explode(" ", $nombre);
+            $regexp = ($arr_pal[0] != "")? "($arr_pal[0]" : "(";
+            for($i=1; $i<count($arr_pal); $i++){
+                $regexp .= ($arr_pal[$i] != "")? "|$arr_pal[$i]" : "";
+            }
+            $regexp .= ".*)";
+        }
+        if($idCategoria!=null){
+            $idCategoria = htmlspecialchars(strip_tags($idCategoria));
+            $idCategoria = ($idCategoria == '*')? null: $idCategoria;
+        }
+
+        // ESTA ES LA QUERY BASE A LA CUAL SE VAN A AGREGAR 
+        //CONDICION EN FUNCION DE LOS PARAMETROS
+        $queryBase = "SELECT
+                    s.ID_SUBCATEGORIA,
+                    s.ID_CATEGORIA,
+                    s.NOMBRE_SUBCATEGORIA,
+                    c.NOMBRE_CATEGORIA,
+                    s.IMAGEN_SUBCATEGORIA,
+                    s.IMAGEN_SM_SUBCATEGORIA,
+                    s.DESCRIPCION_SUBCATEGORIA,
+                    s.ORDEN_SUBCATEGORIA,
+                    s.CANTIDAD_PRODUCTOS_SUBCATEGORIA
+                    FROM SUBCATEGORIA s
+                        LEFT OUTER JOIN CATEGORIA c ON s.ID_CATEGORIA = c.ID_CATEGORIA";
+        //CONDICION LIMITES DE LA QUERY
+        $condicionLimites = "LIMIT $iniciar , $numFilas";
+        //CONDICION DE CATEGORIA
+        $condicionCategoria = "s.ID_CATEGORIA = $idCategoria";
+        //CONDICION DE CATEGORIA NULA
+        $condicionCategoriaNula = "s.ID_CATEGORIA IS null";
+        //CONDICIO DE NOMBRE
+        $condicionNombre = "s.NOMBRE_SUBCATEGORIA REGEXP '$regexp'";
+
+        $query = $queryBase;
+        $union = "";
+        //$condiciones = " WHERE (i.PRINCIPAL_IMAGEN = 1 OR i.PRINCIPAL_IMAGEN IS NULL)";
+        //$condiciones = " WHERE ";
+        $condiciones = "";
+        $condicionAgregada = false;
+
+        //SI EXISTE ALGUNCA CONDICION... ya existe con lo de las imagenes
+        
+        if($nombre != null or $idCategoria != null){
+            $condiciones = " WHERE ";
+        }
+        
+
+        if($nombre != null){
+            $union = ($condicionAgregada)? " AND " : "";
+            $condiciones = $condiciones.$union.$condicionNombre;
+            $condicionAgregada = true;
+        }
+
+        if($idCategoria != null){
+            $union = ($condicionAgregada)? " AND " : "";
+            
+            if($idCategoria == "0"){
+                $condiciones = $condiciones.$union.$condicionCategoriaNula;
+                $condicionAgregada = true;
+            }else{
+                $condiciones = $condiciones.$union.$condicionCategoria;
+                $condicionAgregada = true;
+            }
+        }
+
+        $query = $query.$condiciones;
+        $query = $query." ".$condicionLimites;
+        //$this->queryE = $query;
+        //echo $query;
+        $stmt = $this->conn->prepare($query);
+        try {
+            $stmt->execute();
+        }catch (PDOException $e) {
+            echo 'El error .. '. $e->getMessage();
+        }
+        $num = $stmt->rowCount();
+        $arr_subcat = array();
+
+        if($num>0){
+            while($fila = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $subcategoria = array(
+                    'id' => $fila['ID_SUBCATEGORIA'],
+                    'nombre' => $fila['NOMBRE_SUBCATEGORIA'],
+                    'idC' => $fila['ID_CATEGORIA'],
+                    'nombreC' => $fila['NOMBRE_CATEGORIA'],
+                    'imagen' => $fila['IMAGEN_SUBCATEGORIA'],
+                    'imagen_s' => $fila['IMAGEN_SM_SUBCATEGORIA'],
+                    'descripcion' => $fila['DESCRIPCION_SUBCATEGORIA'],
+                    'orden' => $fila['ORDEN_SUBCATEGORIA'],
+                    'cantidad' => $fila['CANTIDAD_PRODUCTOS_SUBCATEGORIA']
+                );
+                array_push($arr_subcat, $subcategoria);
+            }
+        }
+        
+        $queryNFilas = "SELECT COUNT(s.ID_SUBCATEGORIA)
+                        FROM SUBCATEGORIA s";
+        $queryNFilas = $queryNFilas.$condiciones;
+        $this->numero_filas = $this->conn->query($queryNFilas)->fetchColumn();
+        
+        return $arr_subcat;
+    }
+
+    public function modificarCantidadProductos($idSubcategoria, $cantidadModificada){
+        $idSubcategoria = htmlspecialchars(strip_tags($idSubcategoria));
+        $cantidadModificada = htmlspecialchars(strip_tags($cantidadModificada));
+        $query = "SELECT
+                    CANTIDAD_PRODUCTOS_SUBCATEGORIA
+                    FROM SUBCATEGORIA
+                    WHERE ID_SUBCATEGORIA = :idSub";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':idSub', $idSubcategoria);
+        $stmt->execute();
+        $numProd = $stmt->fetchColumn();
+
+        $nuevaCantidad = $numProd + $cantidadModificada;
+        $query2 = "UPDATE SUBCATEGORIA 
+                    SET CANTIDAD_PRODUCTOS_SUBCATEGORIA = :nuevaCantidad
+                    WHERE ID_SUBCATEGORIA = :idSubcategoria";
+        $stmt = $this->conn->prepare($query2);
+        $stmt->bindParam(':nuevaCantidad', $nuevaCantidad);
+        $stmt->bindParam(':idSubcategoria', $idSubcategoria);
+        $stmt->execute();
+        return $nuevaCantidad;
     }
 
     public function leer(){

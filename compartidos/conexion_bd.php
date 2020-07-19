@@ -4,10 +4,10 @@
     $password = "";
     $dbname = "CASADEARTE";
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    $conn2 = new mysqli($servername, $username, $password, $dbname);
 
-    if($conn->connect_error){
-        echo $conn->connect_error;
+    if($conn2->connect_error){
+        echo $conn2->connect_error;
     }
     
 ?>

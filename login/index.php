@@ -4,6 +4,16 @@ if(isset($_SESSION['usuario'])){
     header("Location: categorias.php");
     die();
 }
+
+$error = $_GET["error"]??"";
+$mensaje = "";
+if($error=="camposVacios"){
+    $mensaje = "Debe completar el usuario y la contraseña";
+}elseif($error=="claveIncorrecta"){
+    $mensaje= "La clave es  incorrecta";
+}elseif($error=="noSeEncontroUSUARIO_SQLERROR"){
+    $mensaje="No se encontro el usuario";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +30,9 @@ if(isset($_SESSION['usuario'])){
             <div class="contenedor-titulo">
                 <h2>Login <br> Casa de Arte</h2>
             </div>
-            
+            <div class="mensaje">
+                <p class="mensaje-texto"><?=$mensaje?></p>
+            </div>
             <div class="contenedor-campo">
                 <input type="text" name="usuario" autocomplete="off" required>
                 <label for="usuario" class="etiqueta">

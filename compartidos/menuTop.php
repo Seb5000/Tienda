@@ -3,8 +3,10 @@
 </div> 
 <div class="contenedor_menu">
     <div class="logo">
-        <img src="/tio/imagenes/logo.png" alt="">
-        <h2>Casa<br>de arte</h2>
+        <a href="index.php">
+            <img src="/tio/imagenes/logo.png" alt="">
+            <h2>Casa<br>de arte</h2>
+        </a>
     </div>
     <div class="informacion">
         <div>

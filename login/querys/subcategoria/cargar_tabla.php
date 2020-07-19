@@ -18,12 +18,15 @@ $pagina = $_GET['pagina']?? 1;
 $arrCat = $categoria->listaCategorias();
 //Para la paginacion
 
-$total_subcategorias = $subcategoria->numeroFilas();
-$numero_de_paginas = ceil($total_subcategorias/$catidad_x_pagina);
-$pagina = $pagina==-1 ? $numero_de_paginas : $pagina;
+//$total_subcategorias = $subcategoria->numeroFilas();
+//$numero_de_paginas = ceil($total_subcategorias/$catidad_x_pagina);
+//$pagina = $pagina==-1 ? $numero_de_paginas : $pagina;
 $offset = ($pagina-1)*$catidad_x_pagina;
-$arrSub = $subcategoria->obtenerProductos2($offset, $catidad_x_pagina, $nombre, $idCategoria);
+//$arrSub = $subcategoria->obtenerProductos2($offset, $catidad_x_pagina, $nombre, $idCategoria);
+$arrSub = $subcategoria->obtenerSubcategorias3($offset, $catidad_x_pagina, $nombre, $idCategoria);
 
+$total_subcategorias = $subcategoria->numero_filas;
+$numero_de_paginas = ceil($total_subcategorias/$catidad_x_pagina);
 ?>
 
 <div id="cabeceraTabla">
@@ -127,12 +130,13 @@ $arrSub = $subcategoria->obtenerProductos2($offset, $catidad_x_pagina, $nombre, 
     </div>
     <div class="paginacion">
         <a class="pagina <?php echo $pagina-1<=0? 'desactivado': '' ?>" 
-        href="<?php echo 'subcategoria.php?cantidad='.$catidad_x_pagina.'&pagina='.($pagina-1) ?>">Anterior</a>
+        onclick="cambiarPagina(<?php echo ($pagina-1) ?>)">Anterior</a>
         <?php for($i = 1; $i<= $numero_de_paginas; $i++):?>
         <a class="pagina <?php echo $pagina==$i? 'activo': '' ?>" 
-        href="subcategoria.php?cantidad=<?php echo $catidad_x_pagina ?>&pagina=<?php echo ($i) ?>">
+        onclick="cambiarPagina(<?php echo ($i) ?>)">
         <?php echo $i ?></a>
         <?php endfor ?>
-        <a class="pagina <?php echo $pagina+1>$numero_de_paginas? 'desactivado': '' ?>" href="<?php echo 'subcategoria.php?cantidad='.$catidad_x_pagina.'&pagina='.($pagina+1) ?>">Siguiente</a>
+        <a class="pagina <?php echo $pagina+1>$numero_de_paginas? 'desactivado': '' ?>" 
+        onclick="cambiarPagina(<?php echo ($pagina+1) ?>)">Siguiente</a>
     </div>
 </div>

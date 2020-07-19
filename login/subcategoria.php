@@ -65,7 +65,6 @@
                         <label class="etiquetaForm" for="nombre">Nombre de la Subcategoria</label>
                         <span class="mensaje_form" id="form_agregar_mensaje_nombre"></span>
                         <input class="entradaForm" name="nombre" type="text">
-                        
                     </div>
                     
                     <div class="grupoInput">

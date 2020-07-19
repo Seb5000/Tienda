@@ -68,11 +68,6 @@
                             <input class="entradaForm" name="imagen" type="file">
                         </div>
                         <div class="grupoInput">
-                            <label class="etiquetaForm" for="logo">Logo de la categoria</label>
-                            <span class="mensaje_form" id="form_agregar_mensaje_logo"></span>
-                            <input class="entradaForm" name="logo" type="file">
-                        </div>
-                        <div class="grupoInput">
                             <label class="etiquetaForm" for="descripcion">Descripcion</label>
                             <textarea class="entradaForm" name="descripcion"></textarea>
                         </div>
@@ -99,7 +94,6 @@
                         <input type="hidden" id="editar_id" name="id">
                         <input type="hidden" id="editar_caminoImagen" name="caminoImagen">
                         <input type="hidden" id="editar_caminoImagenS" name="caminoImagenS">
-                        <input type="hidden" id="editar_caminoLogo" name="caminoLogo">
                         <div class="grupoInput">
                             <label class="etiquetaForm" for="editar_nombre">Nombre de la categoria</label>
                             <span class="mensaje_form" id="editar_mensaje_nombre"></span>
@@ -114,16 +108,6 @@
                             <span class="mensaje_form" id="editar_mensaje_imagen"></span>
                             <input class="entradaForm" name="imagen" 
                             type="file" id="editar_imagen">
-                        </div>
-                        <div class="grupoInput">
-                            <label for="editar_logo">Logo de la Subcategoria
-                                <div class="contenedor_vista_previa">
-                                    <img id="vista_previa_logo" src="" alt="">
-                                </div>
-                            </label>
-                            <span class="mensaje_form" id="editar_mensaje_logo"></span>
-                            <input class="entradaForm" name="logo" 
-                            type="file" id="editar_logo">
                         </div>
                         <div class="grupoInput">
                             <label class="etiquetaForm" for="edita_descripcion">Descripcion</label>

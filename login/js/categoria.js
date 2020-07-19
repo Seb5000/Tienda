@@ -4,7 +4,6 @@ const agregarCabecera = document.getElementById("cabeceraModalAgregar");
 const agregarMensajePrincipal = document.getElementById("mensaje_agregar");
 const agregarMensajeNombre = document.getElementById("form_agregar_mensaje_nombre");
 const agregarMensajeImagen = document.getElementById("form_agregar_mensaje_imagen");
-const agregarMensajeLogo = document.getElementById("form_agregar_mensaje_logo");
 
 //MODAL EDITAR
 const formEditar = document.getElementById("formulario_editar");
@@ -21,8 +20,6 @@ const vistaPreviaImagen = document.getElementById("vista_previa_imagen");
 const editarMensajeImagen = document.getElementById("editar_mensaje_imagen");
 //logo
 const editarLogo = document.getElementById("editar_logo");
-const editarCaminoLogo = document.getElementById("editar_caminoLogo");
-const vistaPreviaLogo = document.getElementById("vista_previa_logo");
 const editarMensajeLogo = document.getElementById("editar_mensaje_logo");
 //Descripcion
 const editarDescripcion = document.getElementById("editar_descripcion");
@@ -66,7 +63,6 @@ function agregarCategoria(){
         agregarMensajePrincipal.innerHTML = resp.mensaje;
         agregarMensajeNombre.innerHTML = resp.nombre;
         agregarMensajeImagen.innerHTML = resp.imagen;
-        agregarMensajeLogo.innerHTML = resp.logo;
 
         if(resp.error){
             agregarCabecera.style.backgroundColor = "lightcoral";
@@ -96,8 +92,6 @@ function editarCategoria(elem){
         vistaPreviaImagen.src = categoria.imagen;
         editarCaminoImagen.value = categoria.imagen;
         editarCaminoImagenS.value = categoria.imagenSM;
-        vistaPreviaLogo.src = categoria.logo;
-        editarCaminoLogo.value = categoria.logo;
         editarDescripcion.value = categoria.descripcion;
         abrir_modal('editarModal'); 
     })
@@ -117,15 +111,6 @@ editarImagen.addEventListener('change', e => {
     const f = e.target.files[0];
     lectorImagen.readAsDataURL(f);
 });
-//PARA EL LOGO
-const lectorLogo = new FileReader();
-lectorLogo.onload = e => {
-    vistaPreviaLogo.src = e.target.result;
-};
-editarLogo.addEventListener('change', e => {
-    const f = e.target.files[0];
-    lectorLogo.readAsDataURL(f);
-});
 
 function guardarCambios(){
     let formData = new FormData(formEditar);
@@ -135,7 +120,7 @@ function guardarCambios(){
         editarCabecera.style.backgroundColor = "lightgreen";
         editarMensaje.innerHTML = (resp.mensaje == null) ? '' : resp.mensaje;
         setTimeout(() => {
-            //location.reload();
+            location.reload();
         }, 500);
     })
     .catch(err =>{
@@ -144,7 +129,6 @@ function guardarCambios(){
         editarMensaje.innerHTML = (resp.mensaje == null) ? '' : resp.mensaje;
         editarMensajeNombre.innerHTML = (resp.nombre == null) ? '' : resp.nombre;
         editarMensajeImagen.innerHTML = (resp.imagen == null) ? '' : resp.imagen;
-        editarMensajeLogo.innerHTML = (resp.logo == null) ? '' : resp.logo;
     });
 }
 
@@ -186,7 +170,7 @@ function borrar(){
         borrarCabecera.style.backgroundColor = "lightgreen";
         borrarMensaje.innerHTML = resp.mensaje;
         setTimeout(() => {
-            //location.reload();
+            location.reload();
         }, 500);
     })
     .catch(err => {

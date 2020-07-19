@@ -26,9 +26,7 @@ if(isset($_POST['nombre'])){
 // VALIDACION PARA IMAGEN Y LOGO
 $extensiones_permitidas= ["jpg", "jpeg", "png", "gif", "svg", "webp"];
 $respuesta['imagen']="";
-$respuesta['logo']="";
 $cargoImagen=false;
-$cargoLogo=false;
 //$sigId = $categoria->siguienteId();
 //PARA LA IMAGEN
 if(is_uploaded_file($_FILES['imagen']['tmp_name'])){ //SE SUBIO ALGUN ARCHIVO
@@ -69,40 +67,6 @@ if(is_uploaded_file($_FILES['imagen']['tmp_name'])){ //SE SUBIO ALGUN ARCHIVO
     $path_parcial_imagen = "/tio/imagenes/".$nomImagen;
     $path_parcial_imagenS = "/tio/imagenes/".$nomImagen;
 }
-//PARA EL LOGO
-if(is_uploaded_file($_FILES['logo']['tmp_name'])){ //SE SUBIO ALGUN ARCHIVO
-    $cargoLogo = true;
-    $logo = $_FILES['logo']["name"];
-    $logoTmpName = $_FILES['logo']["tmp_name"];
-    $logoSize = $_FILES['logo']["size"];
-    $logoError = $_FILES['logo']["error"];
-    $logoType = $_FILES['logo']["type"];
-
-    $extension_logo = strtolower(pathinfo($logo, PATHINFO_EXTENSION));
-    if(in_array($extension_logo, $extensiones_permitidas)){ //verificamos que la extension este permitida
-        if($logoError === 0){
-            if($logoSize < 15000000){
-                $nomLogo = uniqid("L", true);
-                $nomLogo = $nomLogo.".".$extension_logo; // concatenamos el nombre con la extension
-                $path_completo_logo = $_SERVER['DOCUMENT_ROOT']."/tio/imagenes/logos/".$nomLogo;
-                $path_parcial_logo = "/tio/imagenes/logos/".$nomLogo;
-            }else{
-                $err = true;
-                $respuesta['logo'] .= "Logo demasiado grande debe ser menor a 50Mb";
-            }
-        }else{
-            $err = true;
-            $respuesta['logo'] .= "Ocurrio un error cargando el logo";
-        }
-    }else{
-        $err = true;
-        $respuesta['logo'] .= "El formato del logo no es permitido / ";
-    }
-}else{
-    $nomLogo = "defecto.svg";
-    $path_parcial_logo = "/tio/imagenes/".$nomLogo;
-}
-//FIN VALIDACION LOGO
 
 //PARA LA DESCRIPCION
 $descripcion = $_POST['descripcion'] ?? "";
@@ -112,7 +76,6 @@ if(!$err){
     $categoria->nombre = $nombre;
     $categoria->imagen = $path_parcial_imagen; //pasamos el camino hacia la imagen
     $categoria->imagenSM = $path_parcial_imagenS; //pasamos el camino hacia la imagen
-    $categoria->logo = $path_parcial_logo; //pasamos el camino hacia la imagen
     $categoria->descripcion = $descripcion;
 
     $query = $categoria->agregar();
@@ -123,10 +86,6 @@ if(!$err){
             move_uploaded_file($_FILES['imagen']['tmp_name'], $path_completo_imagen);  
             redimensionar($path_completo_imagen, $path_completo_imagenS, 320, 320, 70);
             redimensionar($path_completo_imagen, $path_completo_imagen, 800, 600, 80);
-        }
-        if($cargoLogo){
-            move_uploaded_file($_FILES['logo']['tmp_name'], $path_completo_logo);    
-            redimensionar($path_completo_logo, $path_completo_logo, 320, 320, 80);
         }
         $respuesta["mensaje"] = "Se agrego existosamente el registro";
     }else{

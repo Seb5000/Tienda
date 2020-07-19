@@ -1,6 +1,7 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/baseDatos.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Producto.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Subcategoria.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Imagen.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/redim2.php';
 
@@ -10,6 +11,7 @@ $bd = new DataBase();
 $conn = $bd->conectar();
 
 $producto = new Producto($conn);
+$subcategoria = new Subcategoria($conn);
 $ImagenC = new Imagen($conn);
 
 $respuesta = array();
@@ -214,7 +216,11 @@ if(!$err){ //SI NO OCURRIO NINGUN ERROR EN LA VALIDACION
             //$respuesta["query"] = $ImagenC->getQuery();
             $respuesta["mensaje"] = "Ocurrio un error al agregar las imagenes";
         }
-        
+
+        //Modificar la cantidad de productos en subcategoria
+        $subcategoria->modificarCantidadProductos($id_subcategoria, 1);
+        // NUEVOOOO
+
         //$respuesta["arrimg"]= $imagenes;
         //$respuesta["arr2IMG"]= $arrayAux;
     }else{

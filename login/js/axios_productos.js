@@ -176,7 +176,7 @@ function agregarPorAxios(){
     formData.delete("imagenes[]");
     //agregammos las imagenes que estan dentro del drag and drop
     let lis = obtenerListaImagenes(document.getElementById("containerAgregar"));
-    // Nota objFiles esta declarado en el archivo dragDropv2.js
+    // Nota: objFiles esta declarado en el archivo dragDropv2.js
     lis.forEach(elem =>{
         formData.append("imagenesDD[]", objFiles[elem]);
     });
@@ -261,7 +261,7 @@ function borrarProductos(){
                 borrarCabecera.style.backgroundColor = "white";
                 cerrar_modal("borrarModal");
                 */
-               location.reload();
+               //location.reload();
             }, 1000);
         }else{
             borrarCabecera.style.backgroundColor = "lightcoral";
