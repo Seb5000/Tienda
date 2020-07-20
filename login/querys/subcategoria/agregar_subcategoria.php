@@ -1,5 +1,6 @@
 <?php
 include('../../../compartidos/conexion_bd.php');
+//include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/baseDatos.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/redim2.php';
 $respuesta = [
     "nombre"=>"",
@@ -66,7 +67,7 @@ if(isset($_POST["nombre"]) && isset($_POST["categoria"])){
         `IMAGEN_SUBCATEGORIA`, `IMAGEN_SM_SUBCATEGORIA`, `DESCRIPCION_SUBCATEGORIA`) 
         VALUES (NULL, '$idCategoria', '$nombre', '$path_parcial_imagen', '$path_parcial_imagenS', '$descripcion');";
         
-        if ($conn->query($sql) === TRUE) {
+        if ($conn2->query($sql) === TRUE) {
             if($cargoImg){
                 move_uploaded_file($_FILES['imagen']['tmp_name'], $path_completo_imagen);  
                 redimensionar($path_completo_imagen, $path_completo_imagenS, 320, 320, 70);
@@ -76,7 +77,7 @@ if(isset($_POST["nombre"]) && isset($_POST["categoria"])){
         }else{
             $respuesta["error"] = true;
             $respuesta["mensaje"] = "Error al insertar la Subcategoria 
-            a la base de datos: <br>".$conn->error;
+            a la base de datos: <br>".$conn2->error;
         }
     }
 }else{

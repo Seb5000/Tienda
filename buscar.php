@@ -49,7 +49,7 @@ $existeS = $Subcategoria->existeIdEnCategoria($idSubcategoria, $idCategoria);
             <section>
             <ul class="breadcrumbs">
                 <li class="breadcrumbs__item">
-                    <a href="" class="breadcrumbs__link">Inicio</a>
+                    <a href="index.php" class="breadcrumbs__link">Inicio</a>
                 </li>
                 <?php
                 if($existeC):

@@ -1,5 +1,6 @@
 <?php
 include("../../../compartidos/conexion_bd.php");
+//include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/baseDatos.php';
 $ids = $_POST['id'];
 $respuesta = [];
 $respuesta["error"] = false;
@@ -8,7 +9,7 @@ if(isset($_POST['id'])){
     $id = $_POST['id'];
     if(is_numeric($id)){
         $sql = "SELECT * FROM SUBCATEGORIA WHERE ID_SUBCATEGORIA = $id";
-        $result = $conn->query($sql);
+        $result = $conn2->query($sql);
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $respuesta["subcategoria"]["idSub"]=$row["ID_SUBCATEGORIA"];

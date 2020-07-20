@@ -1,5 +1,6 @@
 <?php
 include("../../../compartidos/conexion_bd.php");
+//include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/baseDatos.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/redim2.php';
 $respuesta = [];
 $respuesta["error"] = false;
@@ -59,11 +60,11 @@ if(!$respuesta["error"]){ //Si no hay error
     IMAGEN_SUBCATEGORIA='$path_parcial_imagen', IMAGEN_SM_SUBCATEGORIA='$path_parcial_imagenS',
     DESCRIPCION_SUBCATEGORIA='$descripcion'
     WHERE ID_SUBCATEGORIA=$idSub";
-    if($conn->query($sql) === TRUE) {
+    if($conn2->query($sql) === TRUE) {
         $respuesta["mensaje"] = "El registro fue actualizado!";
     }else{
         $respuesta["error"]=true;
-        $respuesta["mensaje"] .= "<br>Error al editar el registro ".$conn->error;
+        $respuesta["mensaje"] .= "<br>Error al editar el registro ".$conn2->error;
     }
 }
 

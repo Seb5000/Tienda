@@ -1,5 +1,6 @@
 <?php
 include("../../../compartidos/conexion_bd.php");
+//include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/baseDatos.php';
 $respuesta = [];
 $ids = $_POST['ids'];
 $respuesta["status"]= "success";
@@ -8,7 +9,7 @@ $respuesta["data"]["mensaje"]="";
 if(isset($_POST['ids'])){
     $caminoCarpeta = $_SERVER['DOCUMENT_ROOT'];
     $sql = "SELECT IMAGEN_SUBCATEGORIA, IMAGEN_SM_SUBCATEGORIA FROM `SUBCATEGORIA` WHERE ID_SUBCATEGORIA in ($ids)";
-    $result = $conn->query($sql);
+    $result = $conn2->query($sql);
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
             $imagen = $caminoCarpeta.$row["IMAGEN_SUBCATEGORIA"];
@@ -26,12 +27,12 @@ if(isset($_POST['ids'])){
     }
     $sql = "DELETE FROM `SUBCATEGORIA` WHERE ID_SUBCATEGORIA in ($ids)";
 
-    if($conn->query($sql) === TRUE ){
+    if($conn2->query($sql) === TRUE ){
         $respuesta["status"]= "success";
         $respuesta["data"]["mensaje"]= "Se borro correctamente el(los) registro(s): ".$ids;
     }else{
         $respuesta["status"]= "error";
-        $respuesta["data"]["mensaje"]= "Ocurrio un error al borrar el(los) registro(s): ".$ids."<br>".$conn->error;
+        $respuesta["data"]["mensaje"]= "Ocurrio un error al borrar el(los) registro(s): ".$ids."<br>".$conn2->error;
     }
 }
 
