@@ -49,32 +49,33 @@
 				<?php include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/menuCategorias2.php'; ?>
 				<ul class="lista-productos">
 					<?php
-					$sql = "SELECT * FROM `CATEGORIA`";
-					$result = $conn2->query($sql);
-					if ($result->num_rows > 0) {
-						while ($row = $result->fetch_assoc()) { ?>
-							<li>
-								<div class="container">
-									<div class="cardWrap">
-										<a href="/tio/buscar.php?categoria=<?php echo $row["ID_CATEGORIA"]; ?>">
-											<div class="card">
-												<div class="cardBg" style="background-image: url(<?php echo $row["IMAGEN_SM_CATEGORIA"]; ?>);"></div>
-												<div class="cardInfo">
-													<h3 class="cardTitle">
-														<?php echo $row["NOMBRE_CATEGORIA"]; ?>
-													</h3>
-													<p><?php echo $row["DESCRIPCION_CATEGORIA"]; ?></p>
-												</div>
+					include_once $_SERVER['DOCUMENT_ROOT'].'/tio/compartidos/baseDatos.php';
+					include_once $_SERVER['DOCUMENT_ROOT'].'/tio/modelos/Categoria.php';
+					$bd = new DataBase();
+					$conn = $bd->conectar();
+					$categorias = new Categoria($conn);
+					$arrCategorias = $categorias->getCategorias(0, 12);
+					foreach($arrCategorias as $cat):
+					?>
+						<li>
+							<div class="container">
+								<div class="cardWrap">
+									<a href="/tio/buscar.php?categoria=<?php echo $cat['id'] ?>">
+										<div class="card">
+											<div class="cardBg" style="background-image: url(<?php echo $cat['imagenS']; ?>);"></div>
+											<div class="cardInfo">
+												<h3 class="cardTitle">
+													<?php echo $cat['nombre']; ?>
+												</h3>
+												<p><?php echo $cat['descripcion']; ?></p>
 											</div>
-										</a>
-									</div>
+										</div>
+									</a>
 								</div>
-							</li>
+							</div>
+						</li>
 					<?php
-							$id_categoria = $row["ID_CATEGORIA"];
-							$nombre_categoria = $row["NOMBRE_CATEGORIA"];
-						}
-					}
+					endforeach;
 					?>
 				</ul>
 			</div>

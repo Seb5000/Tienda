@@ -32,7 +32,7 @@ class Imagen{
             }
         }
 
-        $query = "INSERT INTO imagenes
+        $query = "INSERT INTO IMAGENES
                     (ID_PRODUCTO,
                     CAMINO_IMAGEN,
                     CAMINO_SM_IMAGEN,

@@ -56,7 +56,7 @@ $numero_de_paginas = ceil($total_categorias/$catidad_x_pagina);
                     <td><?php echo $cat['nombre']?></td>
                     <td>
                         <div class="contenedor_imagen">
-                            <img src="<?php echo $cat['imagen']?>" alt="">
+                            <img src="<?php echo $cat['imagenS']?>" alt="">
                         </div>
                     </td>
                     <td><?php echo $cat['descripcion']?></td>
