@@ -4,7 +4,6 @@
         header("Location: index.php?error=redireccion");
         die();
     }
-    include('../compartidos/conexion_bd.php');
     $actual = 'categorias';
 
     if(isset($_GET['cantidad']) and isset($_GET['pagina'])){
