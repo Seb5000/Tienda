@@ -13,7 +13,6 @@
 </head>
 
 <body>
-	<?php include('compartidos/conexion_bd.php'); ?>
 	<header>
 		<div class="menu">
 			<div class="logo">

@@ -34,7 +34,9 @@ $arrCat = $CategoriaMenu->listaCategorias2();
             foreach($arrCat as $cat):
                 echo "<ul class='listaSubcategorias' categoria=".$cat['id'].">";
                 for($i=0; $i<count($cat['subcategorias']); $i++){
-                    echo "<li><a href='/tio/buscar.php?categoria=".$cat['id']."&subcategoria=".$cat["subcategorias"][$i]['id']."' >".$cat["subcategorias"][$i]['nombre']."</a></li>";
+                    echo "<li><a href='/tio/buscar.php?categoria=".$cat['id']."&subcategoria=".$cat["subcategorias"][$i]['id']."' >
+                    ".$cat["subcategorias"][$i]['nombre']." (".$cat["subcategorias"][$i]['cantidad'].")
+                    </a></li>";
                 }
                 echo "</ul>";
             endforeach

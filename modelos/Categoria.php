@@ -257,7 +257,7 @@ class Categoria{
         }
 
         for($i=0; $i<count($arr_cat); $i++){
-            $query = 'SELECT ID_SUBCATEGORIA, NOMBRE_SUBCATEGORIA 
+            $query = 'SELECT ID_SUBCATEGORIA, NOMBRE_SUBCATEGORIA, CANTIDAD_PRODUCTOS_SUBCATEGORIA
                     FROM SUBCATEGORIA
                     WHERE ID_CATEGORIA = '.$arr_cat[$i]["id"];
             $stmt = $this->conn->prepare($query);
@@ -268,6 +268,7 @@ class Categoria{
                     $item = array(
                         'id'=>$fila['ID_SUBCATEGORIA'],
                         'nombre'=>$fila['NOMBRE_SUBCATEGORIA'],
+                        'cantidad'=>$fila['CANTIDAD_PRODUCTOS_SUBCATEGORIA']
                     );
                     array_push($arr_cat[$i]["subcategorias"], $item);
                 }

@@ -266,11 +266,15 @@ function borrarProductos(){
         }else{
             borrarCabecera.style.backgroundColor = "lightcoral";
             borrarMensaje.innerHTML = respuesta.data.mensaje;
+            console.log(respuesta.data);
         }
     })
     .catch(err => {
         borrarCabecera.style.backgroundColor = "lightcoral";
         borrarMensaje.innerHTML = err;
+        borrarMensaje.innerHTML += err.data;
+        console.log(err);
+        console.log(err.data);
     });
 }
 
